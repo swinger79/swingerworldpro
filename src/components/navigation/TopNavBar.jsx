@@ -21,15 +21,29 @@ const TopNavBar = ({ currentUser = { name: 'Usuario', notifications: 3, messages
         >
           <div className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-white text-xl neon-pulse" style={{
             background: 'linear-gradient(135deg, #FF006E 0%, #8338EC 100%)',
-            boxShadow: '0 0 30px rgba(255,0,110,0.6)'
+            boxShadow: '0 0 30px rgba(255,0,110,0.6)',
+            fontFamily: "'Dancing Script', cursive"
           }}>
             SW
           </div>
           <div>
-            <h1 className="text-lg font-bold text-white neon-text" style={{ textShadow: '0 0 20px rgba(255,0,110,0.8)' }}>
+            <h1 className="text-xl font-bold text-white neon-text" style={{ 
+              textShadow: '0 0 20px rgba(255,0,110,0.8)',
+              fontFamily: "'Dancing Script', cursive",
+              fontWeight: 700,
+              letterSpacing: '1px'
+            }}>
               Swinger World
             </h1>
-            <p className="text-xs" style={{ color: '#FFA69E' }}>Comunidad Élite</p>
+            <p className="text-xs" style={{ 
+              color: '#FFA69E',
+              fontFamily: "'Raleway', sans-serif",
+              fontWeight: 300,
+              letterSpacing: '2px',
+              textTransform: 'uppercase'
+            }}>
+              Comunidad Élite
+            </p>
           </div>
         </motion.div>
 
@@ -45,7 +59,10 @@ const TopNavBar = ({ currentUser = { name: 'Usuario', notifications: 3, messages
               style={{
                 background: 'rgba(13,2,33,0.6)',
                 border: '1px solid rgba(255,0,110,0.3)',
-                boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.3)'
+                boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.3)',
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: '0.875rem',
+                fontWeight: 400
               }}
               onFocus={(e) => e.target.style.boxShadow = '0 0 20px rgba(255,0,110,0.4), inset 0 2px 10px rgba(0,0,0,0.3)'}
               onBlur={(e) => e.target.style.boxShadow = 'inset 0 2px 10px rgba(0,0,0,0.3)'}
@@ -62,9 +79,11 @@ const TopNavBar = ({ currentUser = { name: 'Usuario', notifications: 3, messages
           >
             <Mail size={22} />
             {currentUser.messages > 0 && (
-              <span className="absolute -top-1 -right-1 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold neon-pulse" style={{
+              <span className="absolute -top-1 -right-1 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center neon-pulse" style={{
                 background: 'linear-gradient(135deg, #FF006E 0%, #FB5607 100%)',
-                boxShadow: '0 0 15px rgba(255,0,110,0.8)'
+                boxShadow: '0 0 15px rgba(255,0,110,0.8)',
+                fontFamily: "'Raleway', sans-serif",
+                fontWeight: 700
               }}>
                 {currentUser.messages}
               </span>
@@ -79,9 +98,11 @@ const TopNavBar = ({ currentUser = { name: 'Usuario', notifications: 3, messages
           >
             <Bell size={22} />
             {currentUser.notifications > 0 && (
-              <span className="absolute -top-1 -right-1 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold neon-pulse" style={{
+              <span className="absolute -top-1 -right-1 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center neon-pulse" style={{
                 background: 'linear-gradient(135deg, #8338EC 0%, #FF006E 100%)',
-                boxShadow: '0 0 15px rgba(131,56,236,0.8)'
+                boxShadow: '0 0 15px rgba(131,56,236,0.8)',
+                fontFamily: "'Raleway', sans-serif",
+                fontWeight: 700
               }}>
                 {currentUser.notifications}
               </span>
@@ -96,11 +117,13 @@ const TopNavBar = ({ currentUser = { name: 'Usuario', notifications: 3, messages
               style={{
                 background: 'rgba(255,0,110,0.2)',
                 border: '1px solid rgba(255,0,110,0.4)',
-                boxShadow: showUserMenu ? '0 0 20px rgba(255,0,110,0.6)' : 'none'
+                boxShadow: showUserMenu ? '0 0 20px rgba(255,0,110,0.6)' : 'none',
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: 500
               }}
             >
               <User size={18} className="text-white" />
-              <span className="text-white font-medium">{currentUser.name}</span>
+              <span className="text-white">{currentUser.name}</span>
               <ChevronDown size={16} className="text-white" style={{ transform: showUserMenu ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s' }} />
             </motion.button>
             
@@ -114,7 +137,8 @@ const TopNavBar = ({ currentUser = { name: 'Usuario', notifications: 3, messages
                   style={{
                     background: 'linear-gradient(145deg, rgba(131,56,236,0.95) 0%, rgba(13,2,33,0.98) 100%)',
                     border: '1px solid rgba(255,0,110,0.3)',
-                    boxShadow: '0 0 40px rgba(255,0,110,0.4)'
+                    boxShadow: '0 0 40px rgba(255,0,110,0.4)',
+                    fontFamily: "'Poppins', sans-serif"
                   }}
                 >
                   {[
@@ -126,7 +150,11 @@ const TopNavBar = ({ currentUser = { name: 'Usuario', notifications: 3, messages
                       key={idx}
                       onClick={() => { item.action(); setShowUserMenu(false); }}
                       className="w-full px-4 py-3 text-white text-left transition-all flex items-center gap-2"
-                      style={{ background: 'transparent' }}
+                      style={{ 
+                        background: 'transparent',
+                        fontWeight: 500,
+                        fontSize: '0.875rem'
+                      }}
                       onMouseEnter={(e) => e.target.style.background = 'rgba(255,0,110,0.2)'}
                       onMouseLeave={(e) => e.target.style.background = 'transparent'}
                     >

@@ -6,6 +6,8 @@ import Sidebar from './components/navigation/Sidebar';
 import Footer from './components/navigation/Footer';
 import InicioView from './views/InicioView';
 import AmigosView from './views/AmigosView';
+import RadarView from './views/RadarView';
+import MatchView from './views/MatchView';
 
 const App = () => {
   const [currentView, setCurrentView] = useState('inicio');
@@ -18,10 +20,20 @@ const App = () => {
 
   const GenteView = () => (
     <div>
-      <h2 className="text-3xl font-bold text-white mb-6">Descubre Personas</h2>
+      <h2 className="text-3xl font-bold text-white mb-6 fire-text" style={{
+        background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent'
+      }}>
+        Descubre Personas
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {AI_MEMBERS_ENHANCED.slice(0, 12).map((member) => (
-          <div key={member.id} className="bg-white/5 rounded-xl p-4 border border-white/10">
+          <div key={member.id} className="rounded-xl p-4 border transition-all hover:scale-105 cursor-pointer" style={{
+            background: 'linear-gradient(145deg, rgba(255,8,68,0.1) 0%, rgba(10,10,10,0.95) 100%)',
+            borderColor: 'rgba(255,8,68,0.3)',
+            boxShadow: '0 4px 20px rgba(255,8,68,0.2)'
+          }}>
             <img src={member.media?.photos?.[0]} alt={member.name} className="w-full h-48 object-cover rounded-lg mb-3" />
             <h3 className="text-white font-bold">{member.name}, {member.age}</h3>
             <p className="text-gray-400 text-sm">{member.location}</p>
@@ -45,17 +57,26 @@ const App = () => {
 
     return (
       <div>
-        <h2 className="text-3xl font-bold text-white mb-6">Foros de Discusión</h2>
+        <h2 className="text-3xl font-bold text-white mb-6 fire-text" style={{
+          background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent'
+        }}>
+          Foros de Discusión
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {categories.map((cat, idx) => (
-            <div key={idx} className={`bg-gradient-to-br ${cat.color} bg-opacity-20 rounded-xl p-6 border border-white/10 hover:border-white/30 cursor-pointer`}>
+            <div key={idx} className="rounded-xl p-6 border hover:border-opacity-100 cursor-pointer transition-all" style={{
+              background: 'linear-gradient(145deg, rgba(255,8,68,0.1) 0%, rgba(10,10,10,0.95) 100%)',
+              borderColor: 'rgba(255,8,68,0.3)'
+            }}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <span className="text-4xl">{cat.icon}</span>
                   <h3 className="text-2xl font-bold text-white">{cat.name}</h3>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-white">{cat.topics}</div>
+                  <div className="text-2xl font-bold" style={{ color: '#FFB800' }}>{cat.topics}</div>
                   <div className="text-xs text-white/60">temas</div>
                 </div>
               </div>
@@ -68,31 +89,43 @@ const App = () => {
 
   const PlaceholderView = ({ title }) => (
     <div className="text-center py-20">
-      <h2 className="text-4xl font-bold text-white mb-4">{title}</h2>
+      <h2 className="text-4xl font-bold text-white mb-4 fire-text" style={{
+        background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent'
+      }}>
+        {title}
+      </h2>
       <p className="text-gray-400">Próximamente...</p>
     </div>
   );
 
+  const showSidebar = ['inicio', 'amigos', 'gente', 'todos-amigos'].includes(currentView);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/50 to-black">
+    <div className="min-h-screen" style={{
+      background: 'linear-gradient(135deg, #0A0A0A 0%, #1a0000 50%, #0A0A0A 100%)'
+    }}>
       <TopNavBar currentUser={currentUser} onNavigate={handleNavigation} />
       <MainMenu currentView={currentView} onNavigate={handleNavigation} />
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {['inicio', 'amigos', 'gente'].includes(currentView) && (
+          {showSidebar && (
             <div className="lg:col-span-1">
               <Sidebar />
             </div>
           )}
 
-          <div className={['inicio', 'amigos', 'gente'].includes(currentView) ? 'lg:col-span-3' : 'lg:col-span-4'}>
+          <div className={showSidebar ? 'lg:col-span-3' : 'lg:col-span-4'}>
             {currentView === 'inicio' && <InicioView />}
             {currentView === 'amigos' && <AmigosView />}
             {currentView === 'todos-amigos' && <AmigosView />}
             {currentView === 'favoritos' && <PlaceholderView title="Mis Favoritos" />}
             {currentView === 'solicitudes' && <PlaceholderView title="Solicitudes de Amistad" />}
             {currentView === 'gente' && <GenteView />}
+            {currentView === 'radar' && <RadarView />}
+            {currentView === 'match' && <MatchView />}
             {currentView === 'citas' && <PlaceholderView title="Citas" />}
             {currentView === 'vacaciones' && <PlaceholderView title="Vacaciones" />}
             {currentView === 'fiestas' && <PlaceholderView title="Fiestas" />}

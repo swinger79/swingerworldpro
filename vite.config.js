@@ -12,13 +12,7 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 8080,
     strictPort: false,
-    allowedHosts: [
-      'swingerworldpro-production.up.railway.app',
-      'www.swinguerworld.com',
-      'swinguerworld.com',
-      '.railway.app',
-      'localhost'
-    ]
+    allowedHosts: 'all'
   },
   build: {
     minify: 'esbuild',

@@ -8,6 +8,8 @@ import AmigosView from './views/AmigosView';
 import RadarView from './views/RadarView';
 import MatchView from './views/MatchView';
 import GenteView from './views/GenteView';
+import MensajesView from './views/MensajesView';
+import EditarPerfilView from './views/EditarPerfilView';
 
 const App = () => {
   const [currentView, setCurrentView] = useState('inicio');
@@ -48,16 +50,16 @@ const App = () => {
             {currentView === 'gente' && <GenteView />}
             {currentView === 'radar' && <RadarView />}
             {currentView === 'match' && <MatchView />}
+            {currentView === 'mensajes' && <MensajesView />}
             {currentView === 'citas' && <PlaceholderView title="Citas" />}
             {currentView === 'vacaciones' && <PlaceholderView title="Vacaciones" />}
             {currentView === 'fiestas' && <PlaceholderView title="Fiestas" />}
             {currentView === 'clubes' && <PlaceholderView title="Clubes" />}
             {currentView === 'foro' && <PlaceholderView title="Foro" />}
             {currentView === 'blog' && <PlaceholderView title="Blog" />}
-            {currentView === 'mensajes' && <PlaceholderView title="Mensajes" />}
             {currentView === 'avisos' && <PlaceholderView title="Avisos" />}
             {currentView === 'perfil' && <PlaceholderView title="Tu Perfil" />}
-            {currentView === 'editar-perfil' && <PlaceholderView title="Editar Perfil" />}
+            {currentView === 'editar-perfil' && <EditarPerfilView />}
           </div>
         </div>
       </div>

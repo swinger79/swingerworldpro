@@ -9,7 +9,11 @@ const MainMenu = ({ currentView, onNavigate }) => {
   const [activeSubmenu, setActiveSubmenu] = useState(null);
 
   return (
-    <div className="bg-gradient-to-r from-purple-800 to-pink-800 border-b border-white/10">
+    <div style={{
+      background: 'linear-gradient(135deg, rgba(131,56,236,0.3) 0%, rgba(13,2,33,0.95) 100%)',
+      borderBottom: '1px solid rgba(255,0,110,0.2)',
+      backdropFilter: 'blur(10px)'
+    }}>
       <div className="max-w-7xl mx-auto px-4 flex items-center space-x-1 overflow-x-auto">
         {MAIN_MENU.map((item) => {
           const Icon = iconMap[item.icon];
@@ -18,24 +22,56 @@ const MainMenu = ({ currentView, onNavigate }) => {
 
           return (
             <div key={item.id} className="relative">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => hasSubmenu ? setActiveSubmenu(activeSubmenu === item.id ? null : item.id) : onNavigate(item.id)}
-                className={`flex items-center space-x-2 px-4 py-3 rounded-t-lg ${isActive ? 'bg-purple-600 text-white shadow-lg' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
+                className="flex items-center space-x-2 px-4 py-3 rounded-t-lg transition-all"
+                style={{
+                  background: isActive ? 'linear-gradient(135deg, #8338EC 0%, #FF006E 100%)' : 'transparent',
+                  color: isActive ? 'white' : 'rgba(255,255,255,0.8)',
+                  boxShadow: isActive ? '0 0 20px rgba(255,0,110,0.5)' : 'none',
+                  borderBottom: isActive ? '2px solid #FF006E' : '2px solid transparent'
+                }}
+                onMouseEnter={(e) => !isActive && (e.currentTarget.style.background = 'rgba(255,0,110,0.15)')}
+                onMouseLeave={(e) => !isActive && (e.currentTarget.style.background = 'transparent')}
               >
                 {Icon && <Icon size={18} />}
                 <span className="font-medium whitespace-nowrap">{item.label}</span>
-                {hasSubmenu && <ChevronDown size={14} className={activeSubmenu === item.id ? 'rotate-180' : ''} />}
-              </button>
+                {hasSubmenu && <ChevronDown size={14} style={{ transform: activeSubmenu === item.id ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.3s' }} />}
+              </motion.button>
 
               {hasSubmenu && activeSubmenu === item.id && (
-                <div className="absolute left-0 mt-0 w-64 bg-gray-900 border border-white/20 rounded-b-xl shadow-2xl z-50">
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="absolute left-0 mt-0 w-64 rounded-b-xl shadow-2xl z-50 overflow-hidden"
+                  style={{
+                    background: 'linear-gradient(145deg, rgba(131,56,236,0.95) 0%, rgba(13,2,33,0.98) 100%)',
+                    border: '1px solid rgba(255,0,110,0.3)',
+                    boxShadow: '0 0 30px rgba(255,0,110,0.4)'
+                  }}
+                >
                   {item.submenu.map((subitem) => (
-                    <button key={subitem.id} onClick={() => { onNavigate(subitem.id); setActiveSubmenu(null); }} className="w-full px-4 py-3 hover:bg-white/10 text-white text-left">
+                    <button 
+                      key={subitem.id} 
+                      onClick={() => { onNavigate(subitem.id); setActiveSubmenu(null); }} 
+                      className="w-full px-4 py-3 text-white text-left transition-all"
+                      onMouseEnter={(e) => e.target.style.background = 'rgba(255,0,110,0.2)'}
+                      onMouseLeave={(e) => e.target.style.background = 'transparent'}
+                    >
                       {subitem.label}
-                      {subitem.badge && <span className="ml-2 bg-red-500 text-xs px-2 py-0.5 rounded-full">2</span>}
+                      {subitem.badge && (
+                        <span className="ml-2 text-xs px-2 py-0.5 rounded-full font-bold" style={{
+                          background: 'linear-gradient(135deg, #FF006E 0%, #FB5607 100%)',
+                          boxShadow: '0 0 10px rgba(255,0,110,0.6)'
+                        }}>
+                          2
+                        </span>
+                      )}
                     </button>
                   ))}
-                </div>
+                </motion.div>
               )}
             </div>
           );

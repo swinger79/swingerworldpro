@@ -1,0 +1,11 @@
+/* Tema Romance Sensual */
+:root {
+  --sexy-primary: #FF6B9D;
+  --sexy-secondary: #C73866;
+  --sexy-accent: #FFA69E;
+  --sexy-dark: #1A0F1C;
+  --sexy-darker: #0A0509;
+  --sexy-gradient-main: linear-gradient(135deg, #C73866 0%, #FF6B9D 50%, #FFA69E 100%);
+  --sexy-gradient-card: linear-gradient(145deg, rgba(199,56,102,0.2) 0%, rgba(26,15,28,0.95) 100%);
+  --sexy-glow: 0 0 35px rgba(255,107,157,0.5);
+}

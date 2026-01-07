@@ -1,0 +1,64 @@
+/* Tema Neón Nocturno - Sexy & Moderno */
+:root {
+  --sexy-primary: #FF006E;
+  --sexy-secondary: #8338EC;
+  --sexy-accent: #FB5607;
+  --sexy-dark: #0D0221;
+  --sexy-darker: #000000;
+  --sexy-gradient-main: linear-gradient(135deg, #8338EC 0%, #FF006E 50%, #FB5607 100%);
+  --sexy-gradient-card: linear-gradient(145deg, rgba(131,56,236,0.2) 0%, rgba(13,2,33,0.95) 100%);
+  --sexy-glow: 0 0 40px rgba(255,0,110,0.6);
+  --sexy-glow-strong: 0 0 60px rgba(255,0,110,0.8), 0 0 100px rgba(131,56,236,0.4);
+  --sexy-border: rgba(255,0,110,0.3);
+  --sexy-hover: rgba(255,0,110,0.15);
+}
+
+/* Background Principal */
+body {
+  background: linear-gradient(135deg, #0D0221 0%, #1a0533 50%, #0D0221 100%);
+}
+
+/* Animaciones Neón */
+@keyframes neon-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255,0,110,0.4), 0 0 40px rgba(131,56,236,0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255,0,110,0.6), 0 0 60px rgba(131,56,236,0.4);
+  }
+}
+
+@keyframes neon-glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255,0,110,0.8), 0 0 20px rgba(131,56,236,0.6);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(255,0,110,1), 0 0 40px rgba(131,56,236,0.8);
+  }
+}
+
+.neon-pulse {
+  animation: neon-pulse 2s ease-in-out infinite;
+}
+
+.neon-text {
+  animation: neon-glow 3s ease-in-out infinite;
+}
+
+/* Scrollbar Personalizado */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sexy-darker);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sexy-gradient-main);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  box-shadow: var(--sexy-glow);
+}

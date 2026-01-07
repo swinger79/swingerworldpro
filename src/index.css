@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import Neon Theme */
-@import './styles/neon-theme.css';
+/* Import Sexy Fire Theme */
+@import './styles/sexy-theme.css';
 
 /* Sexy Typography */
 :root {
@@ -12,7 +12,6 @@
   --font-body: 'Poppins', sans-serif;
 }
 
-/* Base Styles con Tema Neón y Tipografía Sexy */
 * {
   margin: 0;
   padding: 0;
@@ -23,32 +22,28 @@ body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #0D0221 0%, #1a0533 50%, #0D0221 100%);
+  background: linear-gradient(135deg, #0A0A0A 0%, #1a0000 50%, #0A0A0A 100%);
   min-height: 100vh;
   color: white;
   font-weight: 400;
   letter-spacing: 0.3px;
 }
 
-/* Títulos con fuente sexy */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   font-weight: 700;
   letter-spacing: 0.5px;
 }
 
-/* Logo y elementos especiales con fuente script */
 .font-display {
   font-family: var(--font-display);
   font-weight: 600;
 }
 
-/* Mejorar legibilidad */
 p, span, div {
   line-height: 1.6;
 }
 
-/* Botones y labels con fuente más limpia */
 button, input, select, textarea {
   font-family: var(--font-body);
   letter-spacing: 0.3px;
@@ -58,7 +53,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-/* AI Enhancements */
 @keyframes pulse-subtle {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.9; }
@@ -68,40 +62,18 @@ code {
   animation: pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Neon Glow Effects */
-.neon-border {
-  border: 1px solid var(--sexy-border);
-  box-shadow: var(--sexy-glow);
-}
-
-.neon-hover:hover {
-  box-shadow: var(--sexy-glow-strong);
-  transform: translateY(-2px);
-  transition: all 0.3s ease;
-}
-
-/* Texto con peso variable para énfasis */
-.text-light { font-weight: 300; }
-.text-normal { font-weight: 400; }
-.text-medium { font-weight: 500; }
-.text-semibold { font-weight: 600; }
-.text-bold { font-weight: 700; }
-.text-black { font-weight: 900; }
-
-/* Títulos grandes con efecto sexy */
 .sexy-title {
   font-family: var(--font-display);
   font-size: 3rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #FF006E 0%, #8338EC 50%, #FB5607 100%);
+  background: linear-gradient(135deg, #FF0844 0%, #FF1744 50%, #FFB800 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 0 30px rgba(255,0,110,0.3);
+  text-shadow: 0 0 30px rgba(255,8,68,0.3);
   letter-spacing: 1px;
 }
 
-/* Subtítulos con estilo */
 .sexy-subtitle {
   font-family: var(--font-heading);
   font-weight: 300;

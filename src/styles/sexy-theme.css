@@ -1,0 +1,64 @@
+/* Tema Fuego y Pasión - Rojo Intenso */
+:root {
+  --sexy-primary: #FF0844;
+  --sexy-secondary: #FFB800;
+  --sexy-accent: #FF1744;
+  --sexy-dark: #0A0A0A;
+  --sexy-darker: #000000;
+  --sexy-gradient-main: linear-gradient(135deg, #FF0844 0%, #FF1744 50%, #FFB800 100%);
+  --sexy-gradient-card: linear-gradient(145deg, rgba(255,8,68,0.15) 0%, rgba(10,10,10,0.95) 100%);
+  --sexy-glow: 0 0 30px rgba(255,8,68,0.5);
+  --sexy-glow-strong: 0 0 60px rgba(255,8,68,0.8), 0 0 100px rgba(255,23,68,0.4);
+  --sexy-border: rgba(255,8,68,0.3);
+  --sexy-hover: rgba(255,8,68,0.15);
+}
+
+/* Background Principal */
+body {
+  background: linear-gradient(135deg, #0A0A0A 0%, #1a0000 50%, #0A0A0A 100%);
+}
+
+/* Animaciones Fuego */
+@keyframes fire-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255,8,68,0.4), 0 0 40px rgba(255,23,68,0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255,8,68,0.8), 0 0 80px rgba(255,184,0,0.4);
+  }
+}
+
+@keyframes fire-glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255,8,68,0.8), 0 0 20px rgba(255,184,0,0.6);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(255,8,68,1), 0 0 40px rgba(255,184,0,0.8), 0 0 60px rgba(255,23,68,0.6);
+  }
+}
+
+.fire-pulse {
+  animation: fire-pulse 2s ease-in-out infinite;
+}
+
+.fire-text {
+  animation: fire-glow 3s ease-in-out infinite;
+}
+
+/* Scrollbar Personalizado Fuego */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sexy-darker);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sexy-gradient-main);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  box-shadow: var(--sexy-glow);
+}

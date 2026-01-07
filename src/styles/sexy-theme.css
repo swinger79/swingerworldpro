@@ -1,64 +1,47 @@
-/* Tema Fuego y Pasión - Rojo Intenso */
+/* Tema Fuego y Pasión - LIMPIO */
 :root {
-  --sexy-primary: #FF0844;
-  --sexy-secondary: #FFB800;
-  --sexy-accent: #FF1744;
+  --sexy-red: #FF0844;
+  --sexy-gold: #FFB800;
+  --sexy-black: #000000;
   --sexy-dark: #0A0A0A;
-  --sexy-darker: #000000;
-  --sexy-gradient-main: linear-gradient(135deg, #FF0844 0%, #FF1744 50%, #FFB800 100%);
-  --sexy-gradient-card: linear-gradient(145deg, rgba(255,8,68,0.15) 0%, rgba(10,10,10,0.95) 100%);
-  --sexy-glow: 0 0 30px rgba(255,8,68,0.5);
-  --sexy-glow-strong: 0 0 60px rgba(255,8,68,0.8), 0 0 100px rgba(255,23,68,0.4);
-  --sexy-border: rgba(255,8,68,0.3);
-  --sexy-hover: rgba(255,8,68,0.15);
+  --sexy-gray: #1A1A1A;
+  --sexy-gray-light: #2A2A2A;
+  
+  /* Gradientes limpios */
+  --gradient-primary: linear-gradient(135deg, #FF0844 0%, #FFB800 100%);
+  --gradient-card: linear-gradient(145deg, rgba(255,8,68,0.08) 0%, rgba(10,10,10,0.95) 100%);
+  --gradient-overlay: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.9) 100%);
+  
+  /* Sombras limpias */
+  --shadow-red: 0 4px 20px rgba(255,8,68,0.2);
+  --shadow-gold: 0 4px 20px rgba(255,184,0,0.2);
+  --shadow-strong: 0 8px 40px rgba(255,8,68,0.3);
+  
+  /* Transparencias */
+  --bg-card: rgba(26,26,26,0.8);
+  --bg-hover: rgba(255,8,68,0.1);
+  --border-subtle: rgba(255,8,68,0.2);
 }
 
-/* Background Principal */
+/* Background limpio */
 body {
-  background: linear-gradient(135deg, #0A0A0A 0%, #1a0000 50%, #0A0A0A 100%);
+  background: #0A0A0A;
 }
 
-/* Animaciones Fuego */
-@keyframes fire-pulse {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(255,8,68,0.4), 0 0 40px rgba(255,23,68,0.2);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(255,8,68,0.8), 0 0 80px rgba(255,184,0,0.4);
-  }
-}
-
-@keyframes fire-glow {
-  0%, 100% {
-    text-shadow: 0 0 10px rgba(255,8,68,0.8), 0 0 20px rgba(255,184,0,0.6);
-  }
-  50% {
-    text-shadow: 0 0 20px rgba(255,8,68,1), 0 0 40px rgba(255,184,0,0.8), 0 0 60px rgba(255,23,68,0.6);
-  }
-}
-
-.fire-pulse {
-  animation: fire-pulse 2s ease-in-out infinite;
-}
-
-.fire-text {
-  animation: fire-glow 3s ease-in-out infinite;
-}
-
-/* Scrollbar Personalizado Fuego */
+/* Scrollbar limpio */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--sexy-darker);
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--sexy-gradient-main);
-  border-radius: 6px;
+  background: linear-gradient(135deg, #FF0844 0%, #FFB800 100%);
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  box-shadow: var(--sexy-glow);
+  box-shadow: 0 0 10px rgba(255,8,68,0.6);
 }

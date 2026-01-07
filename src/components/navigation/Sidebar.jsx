@@ -1,8 +1,7 @@
 import React from 'react';
-import { UserPlus, Users, Calendar, Cake, Image, Eye, Sparkles } from 'lucide-react';
+import { UserPlus, Users, Calendar, Cake, Image, Eye, Sparkles, Video } from 'lucide-react';
 
 const Sidebar = () => {
-  // Datos de ejemplo para visitantes y nuevos usuarios
   const recentVisitors = [
     { id: 1, name: 'Ana', img: 'https://i.pravatar.cc/150?img=1' },
     { id: 2, name: 'Carlos', img: 'https://i.pravatar.cc/150?img=2' },
@@ -29,62 +28,82 @@ const Sidebar = () => {
     { id: 20, name: 'Thiago', img: 'https://i.pravatar.cc/150?img=20', age: 30 }
   ];
 
+  // Fotos recientes de amigos
+  const recentPhotos = [
+    { id: 1, user: 'Ana', img: 'https://picsum.photos/200/200?random=1', time: 'Hace 5 min' },
+    { id: 2, user: 'Carlos', img: 'https://picsum.photos/200/200?random=2', time: 'Hace 12 min' },
+    { id: 3, user: 'Laura', img: 'https://picsum.photos/200/200?random=3', time: 'Hace 25 min' },
+    { id: 4, user: 'Mario', img: 'https://picsum.photos/200/200?random=4', time: 'Hace 1 hora' },
+    { id: 5, user: 'Sofia', img: 'https://picsum.photos/200/200?random=5', time: 'Hace 2 horas' },
+    { id: 6, user: 'David', img: 'https://picsum.photos/200/200?random=6', time: 'Hace 3 horas' }
+  ];
+
+  // Videos recientes de amigos
+  const recentVideos = [
+    { id: 1, user: 'Emma', thumbnail: 'https://picsum.photos/200/200?random=7', duration: '0:45', time: 'Hace 15 min' },
+    { id: 2, user: 'Lucas', thumbnail: 'https://picsum.photos/200/200?random=8', duration: '1:23', time: 'Hace 30 min' },
+    { id: 3, user: 'Mia', thumbnail: 'https://picsum.photos/200/200?random=9', duration: '0:38', time: 'Hace 1 hora' },
+    { id: 4, user: 'Alex', thumbnail: 'https://picsum.photos/200/200?random=10', duration: '2:15', time: 'Hace 2 horas' }
+  ];
+
+  const cardStyle = {
+    background: 'var(--bg-card)',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid var(--border-subtle)',
+    borderRadius: '12px',
+    padding: '16px',
+    boxShadow: 'var(--shadow-red)'
+  };
+
+  const iconStyle = { color: 'var(--sexy-red)' };
+  const iconGoldStyle = { color: 'var(--sexy-gold)' };
+
   return (
     <div className="space-y-4">
       {/* Solicitudes Pendientes */}
-      <div className="rounded-xl p-4 border" style={{
-        background: 'linear-gradient(145deg, rgba(255,8,68,0.1) 0%, rgba(10,10,10,0.95) 100%)',
-        borderColor: 'rgba(255,8,68,0.3)',
-        boxShadow: '0 4px 20px rgba(255,8,68,0.2)'
-      }}>
+      <div style={cardStyle}>
         <div className="flex items-center space-x-2 mb-3">
-          <UserPlus size={18} style={{ color: '#FF0844' }} />
+          <UserPlus size={18} style={iconStyle} />
           <h3 className="font-bold text-white text-sm">Solicitudes pendientes</h3>
         </div>
         <div className="space-y-2 text-sm">
-          <div className="flex justify-between text-white/80">
+          <div className="flex justify-between text-gray-400">
             <span>Amistad:</span>
-            <span className="font-bold" style={{ color: '#FF0844' }}>3</span>
+            <span className="font-bold" style={{ color: 'var(--sexy-red)' }}>3</span>
           </div>
-          <div className="flex justify-between text-white/80">
+          <div className="flex justify-between text-gray-400">
             <span>Fiestas:</span>
-            <span className="font-bold" style={{ color: '#FFB800' }}>2</span>
+            <span className="font-bold" style={{ color: 'var(--sexy-gold)' }}>2</span>
           </div>
         </div>
       </div>
 
       {/* Usuarios Online */}
-      <div className="rounded-xl p-4 border" style={{
-        background: 'linear-gradient(145deg, rgba(255,184,0,0.1) 0%, rgba(10,10,10,0.95) 100%)',
-        borderColor: 'rgba(255,184,0,0.3)',
-        boxShadow: '0 4px 20px rgba(255,184,0,0.2)'
-      }}>
+      <div style={cardStyle}>
         <div className="flex items-center space-x-2 mb-3">
-          <Users size={18} style={{ color: '#FFB800' }} />
+          <Users size={18} style={iconGoldStyle} />
           <h3 className="font-bold text-white text-sm">Usuarios online</h3>
         </div>
         <div className="text-center">
-          <div className="text-4xl font-bold" style={{ color: '#FFB800' }}>247</div>
-          <div className="text-sm text-white/80">conectados ahora</div>
+          <div className="text-4xl font-bold" style={{ color: 'var(--sexy-gold)' }}>247</div>
+          <div className="text-sm text-gray-400">conectados ahora</div>
         </div>
       </div>
 
       {/* ¿Buscas plan? */}
-      <div className="rounded-xl p-4 border" style={{
-        background: 'linear-gradient(145deg, rgba(255,23,68,0.1) 0%, rgba(10,10,10,0.95) 100%)',
-        borderColor: 'rgba(255,23,68,0.3)',
-        boxShadow: '0 4px 20px rgba(255,23,68,0.2)'
-      }}>
+      <div style={cardStyle}>
         <div className="flex items-center space-x-2 mb-3">
-          <Calendar size={18} style={{ color: '#FF1744' }} />
+          <Calendar size={18} style={iconStyle} />
           <h3 className="font-bold text-white text-sm">¿Buscas plan?</h3>
         </div>
         <div className="space-y-2">
           {['Fiesta Barcelona - Sáb 11', 'Cena Madrid - Vie 17', 'Pool Party - Sáb 18'].map((event, i) => (
-            <div key={i} className="rounded-lg p-2 hover:bg-black/40 cursor-pointer transition-all" style={{
-              background: 'rgba(0,0,0,0.3)',
-              border: '1px solid rgba(255,8,68,0.2)'
-            }}>
+            <div key={i} className="rounded-lg p-2 cursor-pointer transition-all" style={{
+              background: 'var(--bg-hover)',
+              border: '1px solid var(--border-subtle)'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,8,68,0.15)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'var(--bg-hover)'}>
               <div className="text-white text-xs">{event}</div>
             </div>
           ))}
@@ -92,40 +111,32 @@ const Sidebar = () => {
       </div>
 
       {/* Cumpleaños */}
-      <div className="rounded-xl p-4 border" style={{
-        background: 'linear-gradient(145deg, rgba(255,8,68,0.1) 0%, rgba(10,10,10,0.95) 100%)',
-        borderColor: 'rgba(255,8,68,0.3)',
-        boxShadow: '0 4px 20px rgba(255,8,68,0.2)'
-      }}>
+      <div style={cardStyle}>
         <div className="flex items-center space-x-2 mb-3">
-          <Cake size={18} style={{ color: '#FFB800' }} />
+          <Cake size={18} style={iconGoldStyle} />
           <h3 className="font-bold text-white text-sm">Hoy cumplen años</h3>
         </div>
         <div className="space-y-2">
           {[{ name: 'Carlos & Ana', age: '35' }, { name: 'Maria', age: '28' }].map((person, idx) => (
             <div key={idx} className="flex items-center space-x-2">
               <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm" style={{
-                background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)'
+                background: 'var(--gradient-primary)'
               }}>
                 🎂
               </div>
               <div className="text-xs">
                 <div className="text-white font-medium">{person.name}</div>
-                <div className="text-white/60">{person.age} años</div>
+                <div className="text-gray-400">{person.age} años</div>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Últimos visitantes de tu perfil */}
-      <div className="rounded-xl p-4 border" style={{
-        background: 'linear-gradient(145deg, rgba(255,184,0,0.1) 0%, rgba(10,10,10,0.95) 100%)',
-        borderColor: 'rgba(255,184,0,0.3)',
-        boxShadow: '0 4px 20px rgba(255,184,0,0.2)'
-      }}>
+      {/* Visitaron tu perfil */}
+      <div style={cardStyle}>
         <div className="flex items-center space-x-2 mb-3">
-          <Eye size={18} style={{ color: '#FFB800' }} />
+          <Eye size={18} style={iconGoldStyle} />
           <h3 className="font-bold text-white text-sm">Visitaron tu perfil</h3>
         </div>
         <div className="grid grid-cols-5 gap-2">
@@ -135,11 +146,9 @@ const Sidebar = () => {
                 src={user.img} 
                 alt={user.name}
                 className="w-full aspect-square object-cover rounded-lg transition-transform group-hover:scale-110"
-                style={{
-                  border: '2px solid rgba(255,184,0,0.3)'
-                }}
+                style={{ border: '1px solid var(--border-subtle)' }}
               />
-              <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
                 <span className="text-white text-xs font-bold">{user.name}</span>
               </div>
             </div>
@@ -147,14 +156,10 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Nuevos usuarios que pueden gustarte */}
-      <div className="rounded-xl p-4 border" style={{
-        background: 'linear-gradient(145deg, rgba(255,8,68,0.1) 0%, rgba(10,10,10,0.95) 100%)',
-        borderColor: 'rgba(255,8,68,0.3)',
-        boxShadow: '0 4px 20px rgba(255,8,68,0.2)'
-      }}>
+      {/* Nuevos usuarios */}
+      <div style={cardStyle}>
         <div className="flex items-center space-x-2 mb-3">
-          <Sparkles size={18} style={{ color: '#FF0844' }} />
+          <Sparkles size={18} style={iconStyle} />
           <h3 className="font-bold text-white text-sm">Nuevos usuarios</h3>
         </div>
         <div className="grid grid-cols-5 gap-2">
@@ -164,17 +169,14 @@ const Sidebar = () => {
                 src={user.img} 
                 alt={user.name}
                 className="w-full aspect-square object-cover rounded-lg transition-transform group-hover:scale-110"
-                style={{
-                  border: '2px solid rgba(255,8,68,0.3)'
-                }}
+                style={{ border: '1px solid var(--border-subtle)' }}
               />
-              <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex flex-col items-center justify-center">
+              <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex flex-col items-center justify-center">
                 <span className="text-white text-xs font-bold">{user.name}</span>
-                <span className="text-white/80 text-xs">{user.age} años</span>
+                <span className="text-gray-400 text-xs">{user.age} años</span>
               </div>
-              {/* Badge "NUEVO" */}
               <div className="absolute -top-1 -right-1 rounded-full px-1.5 py-0.5 text-xs font-bold" style={{
-                background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
+                background: 'var(--gradient-primary)',
                 fontSize: '8px'
               }}>
                 NEW
@@ -184,22 +186,69 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Últimas fotos y videos */}
-      <div className="rounded-xl p-4 border" style={{
-        background: 'linear-gradient(145deg, rgba(255,23,68,0.1) 0%, rgba(10,10,10,0.95) 100%)',
-        borderColor: 'rgba(255,23,68,0.3)',
-        boxShadow: '0 4px 20px rgba(255,23,68,0.2)'
-      }}>
+      {/* Últimas fotos de amigos */}
+      <div style={cardStyle}>
         <div className="flex items-center space-x-2 mb-3">
-          <Image size={18} style={{ color: '#FF1744' }} />
+          <Image size={18} style={iconStyle} />
           <h3 className="font-bold text-white text-sm">Últimas fotos</h3>
         </div>
         <div className="grid grid-cols-3 gap-2">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="aspect-square rounded-lg animate-pulse" style={{
-              background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
-              opacity: 0.3
-            }}></div>
+          {recentPhotos.map((photo) => (
+            <div key={photo.id} className="relative group cursor-pointer">
+              <img 
+                src={photo.img} 
+                alt={photo.user}
+                className="w-full aspect-square object-cover rounded-lg transition-transform group-hover:scale-105"
+                style={{ border: '1px solid var(--border-subtle)' }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
+                <div className="absolute bottom-1 left-1 right-1 text-center">
+                  <div className="text-white text-xs font-bold">{photo.user}</div>
+                  <div className="text-gray-400 text-xs">{photo.time}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Últimos videos de amigos */}
+      <div style={cardStyle}>
+        <div className="flex items-center space-x-2 mb-3">
+          <Video size={18} style={iconGoldStyle} />
+          <h3 className="font-bold text-white text-sm">Últimos videos</h3>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          {recentVideos.map((video) => (
+            <div key={video.id} className="relative group cursor-pointer">
+              <img 
+                src={video.thumbnail} 
+                alt={video.user}
+                className="w-full aspect-video object-cover rounded-lg transition-transform group-hover:scale-105"
+                style={{ border: '1px solid var(--border-subtle)' }}
+              />
+              {/* Play button */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center transition-all group-hover:scale-110" style={{
+                  background: 'rgba(255,8,68,0.8)',
+                  backdropFilter: 'blur(5px)'
+                }}>
+                  <span className="text-white text-xl">▶</span>
+                </div>
+              </div>
+              {/* Duration */}
+              <div className="absolute bottom-1 right-1 text-xs font-bold px-1.5 py-0.5 rounded" style={{
+                background: 'rgba(0,0,0,0.8)',
+                color: 'white'
+              }}>
+                {video.duration}
+              </div>
+              {/* User info on hover */}
+              <div className="absolute top-0 left-0 right-0 p-2 bg-gradient-to-b from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-t-lg">
+                <div className="text-white text-xs font-bold">{video.user}</div>
+                <div className="text-gray-400 text-xs">{video.time}</div>
+              </div>
+            </div>
           ))}
         </div>
       </div>

@@ -45,5 +45,8 @@ const enhanceMember = (member) => {
   };
 };
 
-export const AI_MEMBERS_ENHANCED = aiMembersData.map(enhanceMember);
+// Filtrar solo edades entre 22 y 69 años
+const filteredMembers = aiMembersData.filter(member => member.age >= 22 && member.age <= 69);
+
+export const AI_MEMBERS_ENHANCED = filteredMembers.map(enhanceMember);
 export default AI_MEMBERS_ENHANCED;

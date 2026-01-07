@@ -6,7 +6,7 @@ import { MapPin, Heart, X, Info, Minus, Plus } from 'lucide-react';
 const RadarView = () => {
   const [selectedMember, setSelectedMember] = useState(null);
   const [rotation, setRotation] = useState(0);
-  const [distance, setDistance] = useState(1000); // en metros (1km por defecto)
+  const [distance, setDistance] = useState(1000);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,11 +35,9 @@ const RadarView = () => {
   return (
     <div className="min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Header con selector de distancia */}
         <div className="text-center mb-8">
           <h2 className="text-4xl font-bold mb-4 fire-text">🎯 Radar 3D</h2>
           
-          {/* Selector de distancia */}
           <div className="flex items-center justify-center gap-4 mb-4">
             <button
               onClick={() => setDistance(Math.max(40, distance - 100))}
@@ -73,7 +71,6 @@ const RadarView = () => {
             </button>
           </div>
 
-          {/* Barra deslizante */}
           <div className="max-w-md mx-auto mb-4">
             <input
               type="range"
@@ -98,7 +95,6 @@ const RadarView = () => {
           </p>
         </div>
 
-        {/* Radar 3D */}
         <div className="relative mx-auto rounded-3xl overflow-hidden" style={{
           width: '800px',
           height: '800px',
@@ -107,7 +103,6 @@ const RadarView = () => {
           border: '3px solid var(--border-subtle)',
           boxShadow: 'var(--shadow-strong)'
         }}>
-          {/* Círculos concéntricos */}
           {[1, 2, 3, 4].map((circle) => (
             <div
               key={circle}
@@ -123,7 +118,6 @@ const RadarView = () => {
             />
           ))}
 
-          {/* Líneas de radar */}
           <motion.div
             className="absolute inset-0"
             style={{
@@ -137,13 +131,11 @@ const RadarView = () => {
             }}
           />
 
-          {/* Centro */}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full fire-pulse" style={{
             background: 'var(--gradient-primary)',
             boxShadow: '0 0 30px rgba(255,8,68,0.8)'
           }} />
 
-          {/* Miembros con fotos reales */}
           {nearbyMembers.map((member, index) => {
             const pos = getMemberPosition(index, nearbyMembers.length);
             
@@ -162,7 +154,6 @@ const RadarView = () => {
                 onClick={() => setSelectedMember(member)}
               >
                 <div className="relative">
-                  {/* Foto real del miembro */}
                   <img
                     src={member.media?.photos?.[0]}
                     alt={member.name}
@@ -173,12 +164,10 @@ const RadarView = () => {
                     }}
                   />
                   
-                  {/* Badge online */}
                   <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-500 animate-pulse" style={{
                     boxShadow: '0 0 10px rgba(0,255,0,0.8)'
                   }} />
                   
-                  {/* Distancia simulada */}
                   <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 text-xs font-bold px-1.5 py-0.5 rounded-full whitespace-nowrap" style={{
                     background: 'rgba(0,0,0,0.8)',
                     color: 'var(--sexy-gold)',
@@ -191,7 +180,6 @@ const RadarView = () => {
             );
           })}
 
-          {/* Panel de información */}
           {selectedMember && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -264,7 +252,6 @@ const RadarView = () => {
           )}
         </div>
 
-        {/* Leyenda */}
         <div className="mt-8 flex justify-center gap-6 text-sm">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full" style={{ background: 'var(--sexy-gold)' }} />

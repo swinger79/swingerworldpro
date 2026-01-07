@@ -20,19 +20,13 @@ const App = () => {
 
   const GenteView = () => (
     <div>
-      <h2 className="text-3xl font-bold text-white mb-6 fire-text" style={{
-        background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent'
-      }}>
-        Descubre Personas
-      </h2>
+      <h2 className="text-3xl font-bold text-white mb-6 fire-text">Descubre Personas</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {AI_MEMBERS_ENHANCED.slice(0, 12).map((member) => (
-          <div key={member.id} className="rounded-xl p-4 border transition-all hover:scale-105 cursor-pointer" style={{
-            background: 'linear-gradient(145deg, rgba(255,8,68,0.1) 0%, rgba(10,10,10,0.95) 100%)',
-            borderColor: 'rgba(255,8,68,0.3)',
-            boxShadow: '0 4px 20px rgba(255,8,68,0.2)'
+          <div key={member.id} className="rounded-xl p-4 transition-all hover:scale-105 cursor-pointer" style={{
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border-subtle)',
+            boxShadow: 'var(--shadow-red)'
           }}>
             <img src={member.media?.photos?.[0]} alt={member.name} className="w-full h-48 object-cover rounded-lg mb-3" />
             <h3 className="text-white font-bold">{member.name}, {member.age}</h3>
@@ -45,30 +39,25 @@ const App = () => {
 
   const ForoView = () => {
     const categories = [
-      { name: 'Fantasías', topics: 1234, icon: '💭', color: 'from-pink-500 to-rose-600' },
-      { name: 'Salidas', topics: 856, icon: '🚗', color: 'from-blue-500 to-indigo-600' },
-      { name: 'Presentaciones', topics: 2341, icon: '👋', color: 'from-green-500 to-emerald-600' },
-      { name: 'Locales', topics: 567, icon: '📍', color: 'from-yellow-500 to-amber-600' },
-      { name: 'Lifestyle', topics: 1890, icon: '🌟', color: 'from-purple-500 to-violet-600' },
-      { name: 'Relatos', topics: 3456, icon: '📖', color: 'from-red-500 to-pink-600' },
-      { name: 'Offtopic', topics: 789, icon: '💬', color: 'from-gray-500 to-slate-600' },
-      { name: 'Sexualidad', topics: 2109, icon: '❤️', color: 'from-rose-500 to-red-600' }
+      { name: 'Fantasías', topics: 1234, icon: '💭', color: '#FF0844' },
+      { name: 'Salidas', topics: 856, icon: '🚗', color: '#FFB800' },
+      { name: 'Presentaciones', topics: 2341, icon: '👋', color: '#FF0844' },
+      { name: 'Locales', topics: 567, icon: '📍', color: '#FFB800' },
+      { name: 'Lifestyle', topics: 1890, icon: '🌟', color: '#FF0844' },
+      { name: 'Relatos', topics: 3456, icon: '📖', color: '#FFB800' },
+      { name: 'Offtopic', topics: 789, icon: '💬', color: '#FF0844' },
+      { name: 'Sexualidad', topics: 2109, icon: '❤️', color: '#FFB800' }
     ];
 
     return (
       <div>
-        <h2 className="text-3xl font-bold text-white mb-6 fire-text" style={{
-          background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent'
-        }}>
-          Foros de Discusión
-        </h2>
+        <h2 className="text-3xl font-bold text-white mb-6 fire-text">Foros de Discusión</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {categories.map((cat, idx) => (
-            <div key={idx} className="rounded-xl p-6 border hover:border-opacity-100 cursor-pointer transition-all" style={{
-              background: 'linear-gradient(145deg, rgba(255,8,68,0.1) 0%, rgba(10,10,10,0.95) 100%)',
-              borderColor: 'rgba(255,8,68,0.3)'
+            <div key={idx} className="rounded-xl p-6 cursor-pointer transition-all hover:scale-105" style={{
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border-subtle)',
+              boxShadow: 'var(--shadow-red)'
             }}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
@@ -76,8 +65,8 @@ const App = () => {
                   <h3 className="text-2xl font-bold text-white">{cat.name}</h3>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold" style={{ color: '#FFB800' }}>{cat.topics}</div>
-                  <div className="text-xs text-white/60">temas</div>
+                  <div className="text-2xl font-bold" style={{ color: cat.color }}>{cat.topics}</div>
+                  <div className="text-xs text-gray-400">temas</div>
                 </div>
               </div>
             </div>
@@ -89,13 +78,7 @@ const App = () => {
 
   const PlaceholderView = ({ title }) => (
     <div className="text-center py-20">
-      <h2 className="text-4xl font-bold text-white mb-4 fire-text" style={{
-        background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent'
-      }}>
-        {title}
-      </h2>
+      <h2 className="text-4xl font-bold text-white mb-4 fire-text">{title}</h2>
       <p className="text-gray-400">Próximamente...</p>
     </div>
   );
@@ -103,9 +86,7 @@ const App = () => {
   const showSidebar = ['inicio', 'amigos', 'gente', 'todos-amigos'].includes(currentView);
 
   return (
-    <div className="min-h-screen" style={{
-      background: 'linear-gradient(135deg, #0A0A0A 0%, #1a0000 50%, #0A0A0A 100%)'
-    }}>
+    <div className="min-h-screen" style={{ background: '#0A0A0A' }}>
       <TopNavBar currentUser={currentUser} onNavigate={handleNavigation} />
       <MainMenu currentView={currentView} onNavigate={handleNavigation} />
 

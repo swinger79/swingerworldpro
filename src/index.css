@@ -2,10 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import Clean Theme */
 @import './styles/sexy-theme.css';
 
-/* Sexy Typography */
 :root {
   --font-display: 'Dancing Script', cursive;
   --font-heading: 'Raleway', sans-serif;
@@ -49,10 +47,6 @@ button, input, select, textarea {
   letter-spacing: 0.3px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
 @keyframes pulse-subtle {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.9; }
@@ -69,8 +63,15 @@ code {
   background-clip: text;
 }
 
-/* Eliminar colores viejos */
-.bg-purple-900, .from-purple-900, .to-pink-900, 
-.bg-blue-500, .bg-green-500, .text-purple-400 {
-  /* Override con colores del tema */
+.fire-pulse {
+  animation: fire-pulse 2s ease-in-out infinite;
+}
+
+@keyframes fire-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255,8,68,0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255,8,68,0.8), 0 0 80px rgba(255,184,0,0.4);
+  }
 }

@@ -1,44 +1,144 @@
 import React from 'react';
-import { Heart, UserPlus, CheckCircle, MessageCircle } from 'lucide-react';
+import { Image, Video, MapPin, Smile } from 'lucide-react';
+import TrustBadge from '../components/TrustBadge';
+import { AI_MEMBERS_ENHANCED } from '../data/membersAIEnhanced';
 
 const InicioView = () => {
-  const activities = [
-    { user: 'Carlos & Ana', action: 'son ahora amigos de', target: 'Maria', time: 'Hace 5 min', icon: UserPlus, color: 'from-blue-500 to-indigo-600' },
-    { user: 'Laura', action: 'le gusta la foto de', target: 'Roberto', time: 'Hace 15 min', icon: Heart, color: 'from-pink-500 to-rose-600' },
-    { user: 'David', action: 'verificó su perfil', time: 'Hace 1 hora', icon: CheckCircle, color: 'from-green-500 to-emerald-600' }
+  const posts = [
+    {
+      id: 1,
+      author: AI_MEMBERS_ENHANCED[0],
+      content: '¡Feliz año nuevo! Empezamos el 2026 con muchas ganas de conocer gente nueva 🔥',
+      image: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600',
+      likes: 45,
+      comments: 12,
+      time: 'hace 2 horas'
+    },
+    {
+      id: 2,
+      author: AI_MEMBERS_ENHANCED[1],
+      content: 'Este fin de semana vamos a una fiesta privada en Barcelona. ¿Alguien más va? 💃🕺',
+      likes: 32,
+      comments: 8,
+      time: 'hace 5 horas'
+    }
   ];
 
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 rounded-xl p-6 border border-white/10">
-        <h3 className="text-white font-bold mb-4">¿En qué estás pensando?</h3>
-        <textarea placeholder="Comparte algo..." className="w-full bg-black/30 border border-white/20 rounded-lg p-3 text-white placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-pink-500" rows={3} />
-        <div className="flex justify-end mt-3">
-          <button className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-2 rounded-lg font-medium">Publicar</button>
+      {/* Crear publicación */}
+      <div className="rounded-xl p-6" style={{
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-subtle)'
+      }}>
+        <div className="flex items-center gap-4 mb-4">
+          <img
+            src="https://i.pravatar.cc/150?img=1"
+            alt="Usuario"
+            className="w-12 h-12 rounded-full object-cover"
+          />
+          <input
+            type="text"
+            placeholder="¿En qué estás pensando?"
+            className="flex-1 px-4 py-3 rounded-full text-white placeholder-gray-500"
+            style={{
+              background: 'rgba(0,0,0,0.5)',
+              border: '1px solid var(--border-subtle)'
+            }}
+          />
+        </div>
+
+        <div className="flex items-center gap-4 pt-4" style={{
+          borderTop: '1px solid var(--border-subtle)'
+        }}>
+          <button className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all" style={{
+            color: 'var(--sexy-red)'
+          }}>
+            <Image size={20} />
+            <span>Foto</span>
+          </button>
+          <button className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all" style={{
+            color: 'var(--sexy-red)'
+          }}>
+            <Video size={20} />
+            <span>Video</span>
+          </button>
+          <button className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all" style={{
+            color: 'var(--sexy-red)'
+          }}>
+            <MapPin size={20} />
+            <span>Ubicación</span>
+          </button>
+          <button className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all" style={{
+            color: 'var(--sexy-red)'
+          }}>
+            <Smile size={20} />
+            <span>Sentimiento</span>
+          </button>
         </div>
       </div>
 
-      <div>
-        <h2 className="text-2xl font-bold text-white mb-4">Última actividad</h2>
-        <div className="space-y-4">
-          {activities.map((activity, idx) => {
-            const Icon = activity.icon;
-            return (
-              <div key={idx} className="bg-white/5 rounded-xl p-4 border border-white/10">
-                <div className="flex items-start space-x-4">
-                  <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${activity.color} flex items-center justify-center`}>
-                    <Icon size={24} className="text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-white"><span className="font-bold">{activity.user}</span> {activity.action} {activity.target && <span className="font-bold">{activity.target}</span>}</p>
-                    <p className="text-gray-400 text-sm mt-1">{activity.time}</p>
-                  </div>
+      {/* Feed de publicaciones */}
+      {posts.map(post => (
+        <div key={post.id} className="rounded-xl overflow-hidden" style={{
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border-subtle)'
+        }}>
+          {/* Header */}
+          <div className="p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <img
+                src={post.author.media?.photos?.[0]}
+                alt={post.author.name}
+                className="w-12 h-12 rounded-full object-cover"
+              />
+              <div>
+                <div className="flex items-center gap-2">
+                  <h4 className="font-bold text-white">{post.author.name}</h4>
+                  <TrustBadge
+                    trustScore={post.author.trustScore}
+                    trustLevel={post.author.trustLevel}
+                    size="xs"
+                  />
                 </div>
+                <p className="text-sm text-gray-400">{post.time}</p>
               </div>
-            );
-          })}
+            </div>
+          </div>
+
+          {/* Contenido */}
+          <div className="px-4 pb-4">
+            <p className="text-white mb-4">{post.content}</p>
+          </div>
+
+          {/* Imagen */}
+          {post.image && (
+            <img
+              src={post.image}
+              alt="Post"
+              className="w-full h-96 object-cover"
+            />
+          )}
+
+          {/* Acciones */}
+          <div className="p-4 flex items-center justify-between" style={{
+            borderTop: '1px solid var(--border-subtle)'
+          }}>
+            <button className="flex items-center gap-2 text-gray-400 hover:text-red-500 transition-colors">
+              <span style={{ color: 'var(--sexy-red)' }}>❤️</span>
+              <span>{post.likes}</span>
+            </button>
+            <button className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+              <span>💬</span>
+              <span>{post.comments}</span>
+            </button>
+            <button className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+              <span>🔗</span>
+              <span>Compartir</span>
+            </button>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 };

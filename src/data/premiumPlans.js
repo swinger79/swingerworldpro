@@ -1,4 +1,4 @@
-// Sistema de Monetización Actualizado - Swinger World
+// Sistema de Monetización NIVEL DIOS - Swinger World
 
 export const TOKEN_PACKAGES = [
   {
@@ -117,7 +117,7 @@ export const MEMBERSHIP_PLANS = [
   {
     id: 'diamond',
     name: 'DIAMOND',
-    price: '210',
+    price: '230',
     period: 'de por vida',
     features: [
       '♾️ ACCESO ILIMITADO DE POR VIDA',
@@ -147,7 +147,7 @@ export const BOOST_PACKAGES = [
   {
     id: 'super_like_single',
     name: 'Super Like',
-    cost: 5,
+    cost: 1,
     costType: 'tokens',
     description: 'Destaca tu like',
     icon: '⭐'
@@ -167,6 +167,14 @@ export const BOOST_PACKAGES = [
     costType: 'tokens',
     description: 'Un día completo destacado',
     icon: '💎'
+  },
+  {
+    id: 'video_call_extra',
+    name: 'Videollamada Extra',
+    cost: 12,
+    costType: 'tokens',
+    description: 'Añade 1 videollamada HD',
+    icon: '📹'
   }
 ];
 

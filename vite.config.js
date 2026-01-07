@@ -5,15 +5,17 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0',
-    port: process.env.PORT || 3000,
+    port: 8080,
     strictPort: false
   },
   preview: {
     host: '0.0.0.0',
-    port: process.env.PORT || 3000,
+    port: 8080,
     strictPort: false,
     allowedHosts: [
       'swingerworldpro-production.up.railway.app',
+      'www.swinguerworld.com',
+      'swinguerworld.com',
       '.railway.app',
       'localhost'
     ]

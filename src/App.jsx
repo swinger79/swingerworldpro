@@ -9,7 +9,7 @@ import {
   ChevronRight, ChevronLeft, ChevronDown, ChevronUp,
   MessageCircle, Radio, Compass, AlertCircle, Check, Loader,
   ArrowRight, ArrowLeft, PhoneCall, Link as LinkIcon, CheckCheck,
-  HandCoins, Video, Music, Gift, Target, Radar as RadarIcon
+  Coins, Video, Music, Gift, Target, Radar as RadarIcon
 } from 'lucide-react';
 
 // Import AI Members

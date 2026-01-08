@@ -1,47 +1,40 @@
 import React from 'react';
+import { Shield, Star, Award } from 'lucide-react';
 
-const TrustBadge = ({ trustScore = 75, trustLevel = 'VERIFIED', size = 'sm' }) => {
-  const config = {
-    ELITE: { 
-      color: 'from-yellow-500 to-amber-600', 
-      icon: '👑', 
-      label: 'Elite',
-      glow: 'shadow-yellow-500/50'
-    },
-    VERIFIED: { 
-      color: 'from-blue-500 to-indigo-600', 
-      icon: '✓', 
-      label: 'Verificado',
-      glow: 'shadow-blue-500/50'
-    },
-    BASIC: { 
-      color: 'from-gray-400 to-gray-500', 
-      icon: '◆', 
-      label: 'Básico',
-      glow: 'shadow-gray-500/50'
-    }
+const TrustBadge = ({ trustScore, trustLevel, size = 'md' }) => {
+  const sizes = {
+    xs: { icon: 12, padding: 'px-2 py-1', text: 'text-xs' },
+    sm: { icon: 14, padding: 'px-2 py-1', text: 'text-xs' },
+    md: { icon: 16, padding: 'px-3 py-1', text: 'text-sm' },
+    lg: { icon: 20, padding: 'px-4 py-2', text: 'text-base' }
   };
 
-  const c = config[trustLevel] || config.BASIC;
-  const sizeClasses = {
-    xs: 'text-[10px] px-1.5 py-0.5',
-    sm: 'text-xs px-2 py-0.5',
-    md: 'text-sm px-3 py-1',
-    lg: 'text-base px-4 py-1.5'
+  const config = sizes[size] || sizes.md;
+
+  const getColor = () => {
+    if (trustLevel === 'ELITE') return '#FFB800';
+    if (trustLevel === 'VERIFIED') return '#4169E1';
+    return '#808080';
   };
+
+  const getIcon = () => {
+    if (trustLevel === 'ELITE') return Award;
+    if (trustLevel === 'VERIFIED') return Shield;
+    return Star;
+  };
+
+  const Icon = getIcon();
 
   return (
-    <div className={`
-      bg-gradient-to-r ${c.color} 
-      ${sizeClasses[size]} 
-      rounded-full font-bold text-white 
-      shadow-lg ${c.glow}
-      flex items-center gap-1 
-      backdrop-blur-sm
-      border border-white/20
-      animate-pulse-subtle
-    `}>
-      <span className="text-base">{c.icon}</span>
+    <div
+      className={`inline-flex items-center gap-1 rounded-full font-bold ${config.padding} ${config.text}`}
+      style={{
+        background: 'rgba(0,0,0,0.8)',
+        border: `2px solid ${getColor()}`,
+        color: getColor()
+      }}
+    >
+      <Icon size={config.icon} />
       <span>{trustScore}%</span>
     </div>
   );

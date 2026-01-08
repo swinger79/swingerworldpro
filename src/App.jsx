@@ -23,6 +23,7 @@ const App = () => {
   const [showPremiumModal, setShowPremiumModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [userSubscription, setUserSubscription] = useState(null);
+  const [selectedPublicProfile, setSelectedPublicProfile] = useState(null);
   
   const currentUser = { 
     name: 'Usuario', 
@@ -31,7 +32,10 @@ const App = () => {
     isPremium: !!userSubscription
   };
 
-  const handleNavigation = (view) => {
+  const handleNavigation = (view, data = null) => {
+    if (view === 'perfil-publico' && data) {
+      setSelectedPublicProfile(data);
+    }
     setCurrentView(view);
   };
 
@@ -45,7 +49,6 @@ const App = () => {
     setUserSubscription(paymentInfo);
     setCurrentView('inicio');
     
-    // Mostrar notificación de éxito
     const notification = document.createElement('div');
     notification.innerHTML = `
       <div style="display: flex; align-items: center; gap: 12px;">
@@ -102,7 +105,13 @@ const App = () => {
             }}
             onComplete={handlePaymentComplete}
           />
-        ) : ['perfil', 'organizar-fotos', 'organizar-videos', 'perfil-publico'].includes(currentView) ? (
+        ) : currentView === 'perfil-publico' ? (
+          <PerfilPublicoView
+            miembro={selectedPublicProfile}
+            onNavigate={handleNavigation}
+            onBack={() => setCurrentView('gente')}
+          />
+        ) : ['perfil', 'organizar-fotos', 'organizar-videos'].includes(currentView) ? (
           <>
             {currentView === 'perfil' && <PerfilView onNavigate={handleNavigation} />}
             {currentView === 'organizar-fotos' && <OrganizarFotosView />}
@@ -123,9 +132,9 @@ const App = () => {
               {currentView === 'favoritos' && <PlaceholderView title="Mis Favoritos" />}
               {currentView === 'solicitudes' && <PlaceholderView title="Solicitudes de Amistad" />}
               {currentView === 'gente' && <GenteView onNavigate={handleNavigation} />}
-              {currentView === 'radar' && <RadarView />}
+              {currentView === 'radar' && <RadarView onNavigate={handleNavigation} />}
               {currentView === 'match' && <MatchView onNavigate={handleNavigation} />}
-              {currentView === 'mensajes' && <MensajesView isPremium={userSubscription?.planId !== 'basic'} />}
+              {currentView === 'mensajes' && <MensajesView isPremium={userSubscription?.planId !== 'basic'} onNavigate={handleNavigation} />}
               {currentView === 'citas' && <CitasView />}
               {currentView === 'fiestas' && <PlaceholderView title="Fiestas" />}
               {currentView === 'clubes' && <PlaceholderView title="Clubes" />}
@@ -133,6 +142,7 @@ const App = () => {
               {currentView === 'blog' && <PlaceholderView title="Blog" />}
               {currentView === 'avisos' && <PlaceholderView title="Avisos" />}
               {currentView === 'editar-perfil' && <EditarPerfilView />}
+              {currentView === 'premium' && null}
             </div>
           </div>
         )}
@@ -140,9 +150,12 @@ const App = () => {
 
       <Footer />
 
-      {showPremiumModal && (
+      {(showPremiumModal || currentView === 'premium') && (
         <PremiumPlans
-          onClose={() => setShowPremiumModal(false)}
+          onClose={() => {
+            setShowPremiumModal(false);
+            if (currentView === 'premium') setCurrentView('inicio');
+          }}
           onSelectPlan={handleSelectPlan}
         />
       )}

@@ -1,255 +1,252 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { MapPin, Heart, Eye } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import TODOS_MIEMBROS from '../data/memberGenerator';
-import { MapPin, Heart, X, Info, Minus, Plus } from 'lucide-react';
+import TrustBadge from '../components/TrustBadge';
 
-const RadarView = () => {
-  const [selectedMember, setSelectedMember] = useState(null);
-  const [rotation, setRotation] = useState(0);
+const RadarView = ({ onNavigate }) => {
   const [distance, setDistance] = useState(1000);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [radarAngle, setRadarAngle] = useState(0);
+
+  // Obtener usuarios online
+  const onlineUsers = TODOS_MIEMBROS
+    .filter(m => m.status === 'online')
+    .slice(0, 50)
+    .map((user, idx) => ({
+      ...user,
+      distance: Math.floor(Math.random() * distance),
+      angle: (idx * 360 / 50),
+      x: 50 + Math.cos((idx * 360 / 50) * Math.PI / 180) * (30 + Math.random() * 15),
+      y: 50 + Math.sin((idx * 360 / 50) * Math.PI / 180) * (30 + Math.random() * 15)
+    }));
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setRotation(prev => (prev + 1) % 360);
+      setRadarAngle(prev => (prev + 1) % 360);
     }, 50);
     return () => clearInterval(interval);
   }, []);
 
-  // Filtrar solo usuarios online y dentro del radio
-  const nearbyMembers = TODOS_MIEMBROS
-    .filter(m => m.status === 'online')
-    .slice(0, 50); // Mostrar 50 usuarios online
-
-  const getMemberPosition = (index, total) => {
-    const angle = (index / total) * 2 * Math.PI;
-    const radius = 150 + (Math.sin(rotation * 0.02 + index) * 30);
-    const x = 50 + Math.cos(angle) * (radius / 3);
-    const y = 50 + Math.sin(angle) * (radius / 3);
-    const z = Math.sin(angle + rotation * 0.01) * 50;
-    const scale = 0.7 + (z + 50) / 100 * 0.6;
-    return { x, y, scale, z };
-  };
-
-  const formatDistance = (meters) => {
-    if (meters < 1000) return `${meters}m`;
-    return `${(meters / 1000).toFixed(1)}km`;
+  const handleUserClick = (user) => {
+    setSelectedUser(user);
   };
 
   return (
     <div className="min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-8">
-          <h2 className="text-4xl font-bold mb-4 fire-text">🎯 Radar 3D</h2>
-          
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <button
-              onClick={() => setDistance(Math.max(40, distance - 100))}
-              className="w-10 h-10 rounded-full flex items-center justify-center transition-all"
-              style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border-subtle)',
-                color: 'var(--sexy-red)'
-              }}
-            >
-              <Minus size={20} />
-            </button>
-            
-            <div className="text-center">
-              <div className="text-4xl font-bold" style={{ color: 'var(--sexy-gold)' }}>
-                {formatDistance(distance)}
-              </div>
-              <div className="text-sm text-gray-400">Radio de búsqueda</div>
-            </div>
-            
-            <button
-              onClick={() => setDistance(Math.min(6000, distance + 100))}
-              className="w-10 h-10 rounded-full flex items-center justify-center transition-all"
-              style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border-subtle)',
-                color: 'var(--sexy-red)'
-              }}
-            >
-              <Plus size={20} />
-            </button>
-          </div>
-
-          <div className="max-w-md mx-auto mb-4">
-            <input
-              type="range"
-              min="40"
-              max="6000"
-              step="50"
-              value={distance}
-              onChange={(e) => setDistance(parseInt(e.target.value))}
-              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
-              style={{
-                background: `linear-gradient(to right, var(--sexy-red) 0%, var(--sexy-red) ${((distance - 40) / 5960) * 100}%, var(--sexy-gray) ${((distance - 40) / 5960) * 100}%, var(--sexy-gray) 100%)`
-              }}
-            />
-          </div>
-
+        <div className="text-center mb-6">
+          <h2 className="text-4xl font-bold fire-text mb-2">🎯 Radar 3D</h2>
           <p className="text-gray-400">
-            {nearbyMembers.length} usuarios online en {formatDistance(distance)}
+            {onlineUsers.length} usuarios online cerca de ti
           </p>
         </div>
 
-        <div className="relative mx-auto rounded-3xl overflow-hidden" style={{
-          width: '800px',
-          height: '800px',
-          maxWidth: '100%',
-          background: 'radial-gradient(circle at center, rgba(255,8,68,0.1) 0%, rgba(10,10,10,0.95) 70%)',
-          border: '3px solid var(--border-subtle)',
-          boxShadow: 'var(--shadow-strong)'
-        }}>
-          {[1, 2, 3, 4].map((circle) => (
-            <div
-              key={circle}
-              className="absolute rounded-full border"
-              style={{
-                width: `${circle * 25}%`,
-                height: `${circle * 25}%`,
-                top: `${50 - (circle * 12.5)}%`,
-                left: `${50 - (circle * 12.5)}%`,
-                borderColor: `rgba(255,8,68,${0.3 - circle * 0.05})`,
-                borderWidth: '1px'
-              }}
-            />
-          ))}
-
-          <motion.div
-            className="absolute inset-0"
+        {/* Selector de distancia */}
+        <div className="card-sexy max-w-md mx-auto mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-white font-bold">Radio de búsqueda:</span>
+            <span className="text-2xl font-bold" style={{ color: 'var(--sexy-gold)' }}>
+              {distance < 1000 ? `${distance}m` : `${(distance/1000).toFixed(1)}km`}
+            </span>
+          </div>
+          <input
+            type="range"
+            min="40"
+            max="6000"
+            value={distance}
+            onChange={(e) => setDistance(parseInt(e.target.value))}
+            className="w-full"
             style={{
-              background: `conic-gradient(
-                from ${rotation}deg at 50% 50%,
-                transparent 0deg,
-                rgba(255,8,68,0.3) 30deg,
-                rgba(255,184,0,0.2) 60deg,
-                transparent 90deg
-              )`
+              accentColor: 'var(--sexy-red)'
             }}
           />
+          <div className="flex justify-between text-xs text-gray-400 mt-2">
+            <span>40m</span>
+            <span>6km</span>
+          </div>
+        </div>
 
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full fire-pulse" style={{
-            background: 'var(--gradient-primary)',
-            boxShadow: '0 0 30px rgba(255,8,68,0.8)'
-          }} />
-
-          {nearbyMembers.map((member, index) => {
-            const pos = getMemberPosition(index, nearbyMembers.length);
-            
-            return (
-              <motion.div
-                key={member.id}
-                className="absolute cursor-pointer"
-                style={{
-                  left: `${pos.x}%`,
-                  top: `${pos.y}%`,
-                  transform: `translate(-50%, -50%) scale(${pos.scale})`,
-                  zIndex: Math.round(pos.z + 50),
-                  filter: `brightness(${0.7 + pos.scale * 0.6})`
-                }}
-                whileHover={{ scale: pos.scale * 1.2 }}
-                onClick={() => setSelectedMember(member)}
-              >
-                <div className="relative">
-                  <img
-                    src={member.media?.photos?.[0]}
-                    alt={member.name}
-                    className="w-16 h-16 rounded-full object-cover border-2"
-                    style={{
-                      borderColor: member.trustLevel === 'ELITE' ? 'var(--sexy-gold)' : 'var(--sexy-red)',
-                      boxShadow: `0 0 20px ${member.trustLevel === 'ELITE' ? 'rgba(255,184,0,0.6)' : 'rgba(255,8,68,0.6)'}`
-                    }}
-                  />
-                  
-                  <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-500 animate-pulse" style={{
-                    boxShadow: '0 0 10px rgba(0,255,0,0.8)'
-                  }} />
-                  
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 text-xs font-bold px-1.5 py-0.5 rounded-full whitespace-nowrap" style={{
-                    background: 'rgba(0,0,0,0.8)',
-                    color: 'var(--sexy-gold)',
-                    fontSize: '10px'
-                  }}>
-                    {Math.floor(Math.random() * distance)}m
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-
-          {selectedMember && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="absolute top-4 right-4 rounded-xl p-6 w-80"
-              style={{
-                background: 'var(--bg-card)',
-                border: '2px solid var(--border-subtle)',
-                boxShadow: 'var(--shadow-strong)'
-              }}
-            >
-              <button
-                onClick={() => setSelectedMember(null)}
-                className="absolute top-2 right-2 text-white hover:text-red-500"
-              >
-                <X size={20} />
-              </button>
-
-              <div className="flex items-start space-x-4 mb-4">
-                <img
-                  src={selectedMember.media?.photos?.[0]}
-                  alt={selectedMember.name}
-                  className="w-20 h-20 rounded-full object-cover border-2"
-                  style={{ borderColor: 'var(--sexy-gold)' }}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Radar 3D */}
+          <div className="lg:col-span-2">
+            <div className="card-sexy aspect-square relative overflow-hidden" style={{
+              background: 'radial-gradient(circle, rgba(255,8,68,0.1) 0%, rgba(0,0,0,0.9) 100%)'
+            }}>
+              {/* Círculos concéntricos */}
+              {[1, 2, 3, 4].map(i => (
+                <div
+                  key={i}
+                  className="absolute rounded-full"
+                  style={{
+                    top: `${50 - i * 12.5}%`,
+                    left: `${50 - i * 12.5}%`,
+                    width: `${i * 25}%`,
+                    height: `${i * 25}%`,
+                    border: '1px solid rgba(255,8,68,0.3)'
+                  }}
                 />
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-white">{selectedMember.name}</h3>
-                  <p className="text-sm text-gray-300">{selectedMember.age} años</p>
-                  <p className="text-xs text-gray-400">{selectedMember.type}</p>
-                  <div className="flex items-center text-xs mt-1" style={{ color: 'var(--sexy-gold)' }}>
-                    <MapPin size={12} className="mr-1" />
-                    {Math.floor(Math.random() * distance)}m
-                  </div>
-                </div>
-              </div>
+              ))}
 
-              {selectedMember.personalityTraits && (
-                <div className="mb-4">
-                  <div className="flex flex-wrap gap-1">
-                    {selectedMember.personalityTraits.map((trait, idx) => (
-                      <span key={idx} className="text-xs px-2 py-1 rounded-full" style={{
+              {/* Línea de barrido del radar */}
+              <div
+                className="absolute top-1/2 left-1/2 origin-left"
+                style={{
+                  width: '50%',
+                  height: '2px',
+                  background: 'linear-gradient(90deg, rgba(255,8,68,0.8) 0%, transparent 100%)',
+                  transform: `rotate(${radarAngle}deg)`,
+                  boxShadow: '0 0 20px rgba(255,8,68,0.6)'
+                }}
+              />
+
+              {/* Centro */}
+              <div className="absolute top-1/2 left-1/2 w-4 h-4 rounded-full transform -translate-x-1/2 -translate-y-1/2"
+                style={{
+                  background: 'var(--sexy-red)',
+                  boxShadow: '0 0 20px rgba(255,8,68,0.8)'
+                }}
+              />
+
+              {/* Usuarios */}
+              {onlineUsers.map((user) => (
+                <motion.div
+                  key={user.id}
+                  onClick={() => handleUserClick(user)}
+                  className="absolute cursor-pointer"
+                  style={{
+                    left: `${user.x}%`,
+                    top: `${user.y}%`,
+                    transform: 'translate(-50%, -50%)'
+                  }}
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <div className="relative">
+                    <img
+                      src={user.media?.photos?.[0]}
+                      alt={user.name}
+                      className="w-12 h-12 rounded-full object-cover"
+                      style={{
+                        border: `3px solid ${
+                          user.trustLevel === 'ELITE' ? '#FFB800' : '#4169E1'
+                        }`,
+                        boxShadow: '0 0 15px rgba(0,255,0,0.6)'
+                      }}
+                    />
+                    <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-green-500 animate-pulse"
+                      style={{
+                        border: '2px solid #000'
+                      }}
+                    />
+                    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs font-bold whitespace-nowrap px-2 py-1 rounded"
+                      style={{
+                        background: 'rgba(0,0,0,0.9)',
+                        color: 'var(--sexy-gold)'
+                      }}
+                    >
+                      {user.distance}m
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Panel de información */}
+          <div className="lg:col-span-1">
+            <AnimatePresence mode="wait">
+              {selectedUser ? (
+                <motion.div
+                  key="user-info"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  className="card-sexy"
+                >
+                  <img
+                    src={selectedUser.media?.photos?.[0]}
+                    alt={selectedUser.name}
+                    className="w-full h-48 object-cover rounded-xl mb-4"
+                  />
+
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-2xl font-bold text-white">{selectedUser.name}</h3>
+                    <TrustBadge
+                      trustScore={selectedUser.trustScore}
+                      trustLevel={selectedUser.trustLevel}
+                      size="sm"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-2 text-gray-300 mb-4">
+                    <MapPin size={16} style={{ color: 'var(--sexy-gold)' }} />
+                    <span className="text-sm">{selectedUser.distance}m de distancia</span>
+                  </div>
+
+                  <p className="text-gray-300 text-sm mb-4">{selectedUser.bio}</p>
+
+                  {selectedUser.personalityTraits && (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {selectedUser.personalityTraits.map((trait, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 py-1 rounded-full text-xs font-medium"
+                          style={{
+                            background: 'rgba(255,8,68,0.2)',
+                            color: 'var(--sexy-gold)',
+                            border: '1px solid rgba(255,184,0,0.5)'
+                          }}
+                        >
+                          {trait}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="flex gap-2">
+                    <button
+                      className="flex-1 py-2 rounded-lg font-bold flex items-center justify-center gap-2"
+                      style={{
+                        background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
+                        color: 'white'
+                      }}
+                    >
+                      <Heart size={16} />
+                      Me Gusta
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSelectedUser(null);
+                        if (onNavigate) onNavigate('gente');
+                      }}
+                      className="flex-1 py-2 rounded-lg font-bold flex items-center justify-center gap-2"
+                      style={{
                         background: 'rgba(255,184,0,0.2)',
                         color: 'var(--sexy-gold)',
-                        border: '1px solid rgba(255,184,0,0.3)'
-                      }}>
-                        {trait}
-                      </span>
-                    ))}
+                        border: '1px solid rgba(255,184,0,0.5)'
+                      }}
+                    >
+                      <Eye size={16} />
+                      Ver Perfil
+                    </button>
                   </div>
-                </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="no-selection"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="card-sexy text-center py-12"
+                >
+                  <div className="text-6xl mb-4">🎯</div>
+                  <p className="text-gray-400">
+                    Haz click en un usuario para ver su información
+                  </p>
+                </motion.div>
               )}
-
-              <div className="space-y-2">
-                <button className="w-full py-2 rounded-lg font-bold transition-all" style={{
-                  background: 'var(--gradient-primary)',
-                  color: 'white'
-                }}>
-                  <Heart size={16} className="inline mr-2" />
-                  Me Gusta
-                </button>
-                <button className="w-full py-2 rounded-lg font-bold transition-all" style={{
-                  background: 'rgba(255,184,0,0.2)',
-                  color: 'var(--sexy-gold)',
-                  border: '1px solid rgba(255,184,0,0.3)'
-                }}>
-                  <Info size={16} className="inline mr-2" />
-                  Ver Perfil
-                </button>
-              </div>
-            </motion.div>
-          )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </div>

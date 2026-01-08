@@ -1,0 +1,181 @@
+// Generador de 500 miembros únicos con personalidades detalladas
+
+const nombres_mujer = [
+  'Laura', 'Ana', 'Sofia', 'Marta', 'Emma', 'Lucia', 'Paula', 'Carmen', 'Maria', 'Isabel',
+  'Elena', 'Clara', 'Raquel', 'Natalia', 'Sandra', 'Andrea', 'Julia', 'Cristina', 'Beatriz', 'Sara',
+  'Irene', 'Silvia', 'Rocio', 'Victoria', 'Daniela', 'Alicia', 'Marina', 'Eva', 'Patricia', 'Monica',
+  'Alba', 'Nuria', 'Carla', 'Rosa', 'Miriam', 'Angela', 'Valeria', 'Ines', 'Esther', 'Susana',
+  'Lidia', 'Claudia', 'Teresa', 'Veronica', 'Pilar', 'Lorena', 'Adriana', 'Diana', 'Sonia', 'Gloria'
+];
+
+const nombres_hombre = [
+  'Carlos', 'Miguel', 'Javier', 'David', 'Roberto', 'Antonio', 'Jose', 'Luis', 'Pedro', 'Manuel',
+  'Francisco', 'Juan', 'Rafael', 'Daniel', 'Pablo', 'Sergio', 'Jorge', 'Alberto', 'Fernando', 'Raul',
+  'Alejandro', 'Adrian', 'Ivan', 'Diego', 'Oscar', 'Ruben', 'Victor', 'Angel', 'Marcos', 'Guillermo',
+  'Andres', 'Eduardo', 'Ricardo', 'Enrique', 'Gonzalo', 'Hugo', 'Mario', 'Jesus', 'Alvaro', 'Jaime',
+  'Santiago', 'Gabriel', 'Nicolas', 'Felipe', 'Bruno', 'Mateo', 'Samuel', 'Lucas', 'Leonardo', 'Martin'
+];
+
+const apellidos = [
+  'Garcia', 'Rodriguez', 'Martinez', 'Lopez', 'Gonzalez', 'Perez', 'Sanchez', 'Ramirez', 'Torres', 'Flores',
+  'Rivera', 'Gomez', 'Diaz', 'Cruz', 'Morales', 'Reyes', 'Ortiz', 'Gutierrez', 'Chavez', 'Ruiz'
+];
+
+const ciudades = [
+  'Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Zaragoza', 'Málaga', 'Murcia', 'Palma', 'Bilbao', 'Alicante',
+  'Córdoba', 'Valladolid', 'Vigo', 'Gijón', 'Granada', 'Vitoria', 'Santander', 'Pamplona', 'San Sebastián', 'Toledo'
+];
+
+const personalidades = [
+  'Aventurera', 'Discreta', 'Open-minded', 'Divertida', 'Sensual', 'Inteligente', 'Elegante', 'Apasionada',
+  'Cariñosa', 'Experimentada', 'Joven', 'Curiosa', 'Sofisticada', 'Atrevida', 'Misteriosa', 'Natural',
+  'Simpática', 'Relajada', 'Madura', 'Generosa', 'Fit', 'Respetuosa', 'Independiente', 'Creativa'
+];
+
+const fantasias = [
+  'Intercambio completo', 'Tríos', 'Voyeurismo', 'Exhibicionismo', 'BDSM suave', 'Juegos de rol',
+  'Orgías', 'Dogging', 'Cuckolding', 'Hot Wife', 'Gang bang', 'Soft swap', 'Same room', 'Separate room',
+  'FFM', 'MFM', 'Bisexualidad femenina', 'Juguetes', 'Bondage', 'Dominación', 'Sumisión', 'Fetichismo',
+  'Lencería', 'Disfraces', 'Masajes eróticos', 'Tantra', 'Sexo tántrico', 'Parejas múltiples'
+];
+
+const bios_mujer = [
+  'Mujer independiente buscando conexiones auténticas y experiencias nuevas.',
+  'Chica liberal con mente abierta. Me encanta la aventura y conocer gente interesante.',
+  'Busco explorar mi sensualidad con personas respetuosas y atractivas.',
+  'Curiosa por naturaleza. Me gusta experimentar sin compromiso.',
+  'Mujer sensual que busca experiencias intensas con gente de mente abierta.',
+  'Elegante y discreta. Busco calidad sobre cantidad.',
+  'Me encanta el placer compartido y las nuevas experiencias.',
+  'Chica natural que busca diversión sin complicaciones.'
+];
+
+const bios_hombre = [
+  'Chico liberal buscando experiencias nuevas con gente interesante.',
+  'Hombre respetuoso y discreto. Me gusta el ambiente swinger.',
+  'Busco conexiones reales y experiencias memorables.',
+  'Chico fit y activo. Me encanta la aventura y conocer gente nueva.',
+  'Hombre de mente abierta buscando compartir momentos especiales.',
+  'Discreto, educado y con muchas ganas de explorar.',
+  'Me gusta el intercambio y las experiencias en pareja.',
+  'Chico joven con ganas de aprender y experimentar.'
+];
+
+const bios_pareja = [
+  'Pareja liberal buscando otras parejas para compartir experiencias.',
+  'Pareja madura con experiencia en el ambiente swinger. Buscamos buen rollo.',
+  'Pareja joven empezando en el mundo liberal. Mucho respeto y discreción.',
+  'Nos encanta el intercambio y conocer gente nueva. Ambiente relax.',
+  'Pareja de mente abierta buscando experiencias intensas con otras parejas.',
+  'Buscamos parejas para amistad y algo más. Todo con mucho respeto.',
+  'Pareja swinger con experiencia. Nos gusta la diversión y el buen ambiente.',
+  'Pareja atractiva busca lo mismo. Solo parejas verificadas.'
+];
+
+function random(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function randomAge(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function randomTraits(num = 3) {
+  const shuffled = [...personalidades].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, num);
+}
+
+function randomFantasias(num = 4) {
+  const shuffled = [...fantasias].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, num);
+}
+
+// Generar 200 mujeres
+export const MUJERES = Array.from({ length: 200 }, (_, i) => ({
+  id: `mujer_${i + 1}`,
+  name: `${random(nombres_mujer)}`,
+  age: randomAge(22, 55),
+  location: `${random(ciudades)}, España`,
+  status: Math.random() > 0.7 ? 'online' : 'away',
+  premium: Math.random() > 0.6,
+  verified: Math.random() > 0.3,
+  trustScore: Math.floor(Math.random() * 30) + 70,
+  trustLevel: Math.random() > 0.7 ? 'ELITE' : 'VERIFIED',
+  type: 'mujer',
+  media: {
+    photos: [
+      `https://i.pravatar.cc/400?img=${i + 1}`,
+      `https://i.pravatar.cc/400?img=${i + 50}`
+    ],
+    videos: Math.floor(Math.random() * 4)
+  },
+  personalityTraits: randomTraits(),
+  fantasias: randomFantasias(),
+  bio: random(bios_mujer),
+  ultimaConexion: `hace ${Math.floor(Math.random() * 48)} horas`,
+  mensajesRecibidos: Math.floor(Math.random() * 100),
+  likesRecibidos: Math.floor(Math.random() * 200)
+}));
+
+// Generar 200 hombres
+export const HOMBRES = Array.from({ length: 200 }, (_, i) => ({
+  id: `hombre_${i + 1}`,
+  name: `${random(nombres_hombre)}`,
+  age: randomAge(25, 60),
+  location: `${random(ciudades)}, España`,
+  status: Math.random() > 0.7 ? 'online' : 'away',
+  premium: Math.random() > 0.6,
+  verified: Math.random() > 0.3,
+  trustScore: Math.floor(Math.random() * 30) + 70,
+  trustLevel: Math.random() > 0.7 ? 'ELITE' : 'VERIFIED',
+  type: 'hombre',
+  media: {
+    photos: [
+      `https://i.pravatar.cc/400?img=${i + 200}`,
+      `https://i.pravatar.cc/400?img=${i + 250}`
+    ],
+    videos: Math.floor(Math.random() * 3)
+  },
+  personalityTraits: randomTraits(),
+  fantasias: randomFantasias(),
+  bio: random(bios_hombre),
+  ultimaConexion: `hace ${Math.floor(Math.random() * 48)} horas`,
+  mensajesEnviados: Math.floor(Math.random() * 150),
+  likesEnviados: Math.floor(Math.random() * 300)
+}));
+
+// Generar 100 parejas
+export const PAREJAS = Array.from({ length: 100 }, (_, i) => ({
+  id: `pareja_${i + 1}`,
+  name: `${random(nombres_mujer)} & ${random(nombres_hombre)}`,
+  age: randomAge(25, 50),
+  ageEl: randomAge(27, 55),
+  ageElla: randomAge(24, 50),
+  location: `${random(ciudades)}, España`,
+  status: Math.random() > 0.6 ? 'online' : 'away',
+  premium: Math.random() > 0.5,
+  verified: Math.random() > 0.4,
+  trustScore: Math.floor(Math.random() * 25) + 75,
+  trustLevel: Math.random() > 0.6 ? 'ELITE' : 'VERIFIED',
+  type: 'pareja',
+  media: {
+    photos: [
+      `https://i.pravatar.cc/400?img=${i + 400}`,
+      `https://i.pravatar.cc/400?img=${i + 450}`
+    ],
+    videos: Math.floor(Math.random() * 5)
+  },
+  personalityTraits: randomTraits(4),
+  fantasias: randomFantasias(5),
+  bio: random(bios_pareja),
+  experiencia: Math.random() > 0.5 ? 'Experimentados' : 'Nuevos en esto',
+  buscamos: random(['Parejas', 'Tríos', 'Intercambio', 'Soft swap', 'Todo']),
+  ultimaConexion: `hace ${Math.floor(Math.random() * 24)} horas`,
+  encuentrosRealizados: Math.floor(Math.random() * 20),
+  likesRecibidos: Math.floor(Math.random() * 300)
+}));
+
+// Combinar todos
+export const TODOS_MIEMBROS = [...MUJERES, ...HOMBRES, ...PAREJAS];
+
+export default TODOS_MIEMBROS;

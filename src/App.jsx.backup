@@ -15,10 +15,6 @@ import PerfilView from './views/PerfilView';
 import OrganizarFotosView from './views/OrganizarFotosView';
 import OrganizarVideosView from './views/OrganizarVideosView';
 import PerfilPublicoView from './views/PerfilPublicoView';
-import EventosView from './views/EventosView';
-import ValidacionView from './views/ValidacionView';
-import AdminDashboard from './views/AdminDashboard';
-import RealTimeChat from './components/RealTimeChat';
 import PremiumPlans from './components/PremiumPlans';
 import CheckoutView from './views/CheckoutView';
 

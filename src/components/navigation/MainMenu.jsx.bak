@@ -1,8 +1,6 @@
 import React from 'react';
 import { Home, Users, Search, Heart, Radar, Calendar, MessageCircle, PartyPopper, Building2, MessageSquare } from 'lucide-react';
 import { Calendar, Shield, Settings } from "lucide-react";
-import { Calendar, Shield, Settings } from "lucide-react";
-import { Calendar, Shield, Settings } from "lucide-react";
 
 const MainMenu = ({ currentView, onNavigate }) => {
   const menuItems = [

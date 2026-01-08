@@ -1,72 +1,156 @@
 import React, { useState } from 'react';
-import { Camera, Video, MapPin, Users, Star, MessageCircle, Heart, UserPlus, ArrowLeft } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ArrowLeft, MessageCircle, Heart, Eye, Flag, Ban, UserPlus, Share2, MapPin } from 'lucide-react';
 import TrustBadge from '../components/TrustBadge';
+import VerificationBadge from '../components/VerificationBadge';
+import ReportModal from './ReportModal';
+import BlockUserModal from './BlockUserModal';
 
 const PerfilPublicoView = ({ miembro, onNavigate, onBack }) => {
-  const [activeTab, setActiveTab] = useState('fotos');
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [showBlockModal, setShowBlockModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('about');
+  const [isFriend, setIsFriend] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  if (!miembro) return null;
+  if (!miembro) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-white text-xl">Perfil no encontrado</p>
+      </div>
+    );
+  }
+
+  const handleSendMessage = () => {
+    onNavigate('mensajes', miembro);
+  };
+
+  const handleAddFriend = async () => {
+    try {
+      const response = await fetch(`/api/friends/request/${miembro.id}`, {
+        method: 'POST'
+      });
+      if (response.ok) {
+        setIsFriend(true);
+        alert('Solicitud de amistad enviada');
+      }
+    } catch (error) {
+      alert('Error al enviar solicitud');
+    }
+  };
+
+  const handleToggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+  };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: `Perfil de ${miembro.name}`,
+        url: window.location.href
+      });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Enlace copiado al portapapeles');
+    }
+  };
 
   return (
-    <div className="min-h-screen">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen py-8">
+      <div className="max-w-7xl mx-auto px-4">
         {/* Botón volver */}
         <button
           onClick={onBack}
-          className="mb-6 px-4 py-2 rounded-lg font-bold flex items-center gap-2 hover:scale-105 transition-all"
-          style={{
-            background: 'rgba(255,8,68,0.2)',
-            color: 'var(--sexy-red)',
-            border: '1px solid rgba(255,8,68,0.5)'
-          }}
+          className="mb-6 flex items-center gap-2 text-white hover:scale-105 transition-all"
         >
-          <ArrowLeft size={20} />
-          Volver
+          <ArrowLeft size={24} />
+          <span className="font-bold">Volver</span>
         </button>
 
         {/* Header del perfil */}
         <div className="card-sexy p-8 mb-6">
-          <div className="flex items-start gap-6">
-            <img
-              src={miembro.media?.photos?.[0]}
-              alt={miembro.name}
-              className="w-32 h-32 rounded-2xl object-cover"
-              style={{
-                border: '3px solid var(--sexy-gold)',
-                boxShadow: 'var(--glow-gold)'
-              }}
-            />
-            
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-4xl font-bold text-white">{miembro.name}</h1>
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Foto principal */}
+            <div className="relative">
+              <img
+                src={miembro.media?.photos?.[0]}
+                alt={miembro.name}
+                className="w-64 h-64 object-cover rounded-2xl"
+                style={{
+                  border: '3px solid var(--sexy-gold)',
+                  boxShadow: 'var(--glow-gold)'
+                }}
+              />
+              {miembro.status === 'online' && (
+                <div className="absolute top-4 left-4 px-3 py-1 rounded-full font-bold text-xs flex items-center gap-2"
+                  style={{ background: 'rgba(0,255,0,0.9)', color: '#000' }}
+                >
+                  ● Online
+                </div>
+              )}
+              <div className="absolute top-4 right-4">
                 <TrustBadge
                   trustScore={miembro.trustScore}
                   trustLevel={miembro.trustLevel}
-                  size="lg"
+                  size="md"
                 />
               </div>
-              
-              <div className="flex items-center gap-2 text-gray-300 mb-4">
-                <MapPin size={18} style={{ color: 'var(--sexy-gold)' }} />
-                <span>{miembro.location}</span>
+            </div>
+
+            {/* Información principal */}
+            <div className="flex-1">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h1 className="text-4xl font-bold text-white mb-2">{miembro.name}</h1>
+                  <div className="flex items-center gap-3 mb-3">
+                    <VerificationBadge level={miembro.verified ? 'verified' : 'unverified'} />
+                    {miembro.premium && <VerificationBadge level="premium" />}
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-400 mb-2">
+                    <MapPin size={18} />
+                    <span>{miembro.location}</span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleToggleFavorite}
+                  className="p-3 rounded-full hover:scale-110 transition-all"
+                  style={{
+                    background: isFavorite ? 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)' : 'rgba(255,255,255,0.1)'
+                  }}
+                >
+                  <Heart size={24} fill={isFavorite ? 'white' : 'none'} color="white" />
+                </button>
               </div>
 
-              {miembro.status === 'online' && (
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-4" style={{
-                  background: 'rgba(0,255,0,0.2)',
-                  border: '1px solid #00ff00'
-                }}>
-                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                  <span className="text-sm font-bold text-green-500">Online ahora</span>
+              {/* Estadísticas */}
+              <div className="grid grid-cols-4 gap-4 mb-6">
+                <div className="text-center p-4 rounded-lg" style={{ background: 'rgba(255,8,68,0.1)' }}>
+                  <p className="text-2xl font-bold text-white">{miembro.age}</p>
+                  <p className="text-sm text-gray-400">Años</p>
                 </div>
-              )}
-              
-              <div className="flex gap-3">
+                <div className="text-center p-4 rounded-lg" style={{ background: 'rgba(255,184,0,0.1)' }}>
+                  <p className="text-2xl font-bold" style={{ color: 'var(--sexy-gold)' }}>
+                    {miembro.trustScore}
+                  </p>
+                  <p className="text-sm text-gray-400">Trust Score</p>
+                </div>
+                <div className="text-center p-4 rounded-lg" style={{ background: 'rgba(255,8,68,0.1)' }}>
+                  <p className="text-2xl font-bold text-white">246</p>
+                  <p className="text-sm text-gray-400">Amigos</p>
+                </div>
+                <div className="text-center p-4 rounded-lg" style={{ background: 'rgba(255,184,0,0.1)' }}>
+                  <p className="text-2xl font-bold" style={{ color: 'var(--sexy-gold)' }}>
+                    {miembro.media?.photos?.length || 0}
+                  </p>
+                  <p className="text-sm text-gray-400">Fotos</p>
+                </div>
+              </div>
+
+              {/* Botones de acción */}
+              <div className="grid grid-cols-2 gap-3">
                 <button
-                  onClick={() => onNavigate && onNavigate('mensajes')}
-                  className="px-6 py-3 rounded-lg font-bold flex items-center gap-2"
+                  onClick={handleSendMessage}
+                  className="py-3 rounded-lg font-bold flex items-center justify-center gap-2"
                   style={{
                     background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
                     color: 'white'
@@ -75,216 +159,186 @@ const PerfilPublicoView = ({ miembro, onNavigate, onBack }) => {
                   <MessageCircle size={20} />
                   Enviar Mensaje
                 </button>
+
                 <button
-                  className="px-6 py-3 rounded-lg font-bold flex items-center gap-2"
+                  onClick={handleAddFriend}
+                  disabled={isFriend}
+                  className="py-3 rounded-lg font-bold flex items-center justify-center gap-2"
                   style={{
-                    background: 'rgba(255,8,68,0.2)',
-                    color: 'var(--sexy-red)',
-                    border: '1px solid rgba(255,8,68,0.5)'
-                  }}
-                >
-                  <Heart size={20} />
-                  Me Gusta
-                </button>
-                <button
-                  className="px-6 py-3 rounded-lg font-bold flex items-center gap-2"
-                  style={{
-                    background: 'rgba(255,184,0,0.2)',
-                    color: 'var(--sexy-gold)',
-                    border: '1px solid rgba(255,184,0,0.5)'
+                    background: isFriend ? 'rgba(100,100,100,0.3)' : 'rgba(255,8,68,0.2)',
+                    color: 'white',
+                    border: '2px solid rgba(255,8,68,0.5)',
+                    cursor: isFriend ? 'not-allowed' : 'pointer'
                   }}
                 >
                   <UserPlus size={20} />
-                  Añadir Amigo
+                  {isFriend ? 'Solicitud Enviada' : 'Añadir Amigo'}
+                </button>
+
+                <button
+                  onClick={() => alert('Guiño enviado!')}
+                  className="py-3 rounded-lg font-bold flex items-center justify-center gap-2"
+                  style={{
+                    background: 'rgba(255,184,0,0.2)',
+                    color: 'var(--sexy-gold)',
+                    border: '2px solid rgba(255,184,0,0.5)'
+                  }}
+                >
+                  <Eye size={20} />
+                  Guiñar
+                </button>
+
+                <button
+                  onClick={handleShare}
+                  className="py-3 rounded-lg font-bold flex items-center justify-center gap-2"
+                  style={{
+                    background: 'rgba(255,255,255,0.1)',
+                    color: 'white'
+                  }}
+                >
+                  <Share2 size={20} />
+                  Compartir
+                </button>
+              </div>
+
+              {/* Botones adicionales */}
+              <div className="flex gap-3 mt-3">
+                <button
+                  onClick={() => setShowReportModal(true)}
+                  className="flex-1 py-2 rounded-lg font-bold text-sm flex items-center justify-center gap-2"
+                  style={{
+                    background: 'rgba(255,0,0,0.1)',
+                    color: '#ff4444',
+                    border: '1px solid rgba(255,0,0,0.3)'
+                  }}
+                >
+                  <Flag size={16} />
+                  Reportar
+                </button>
+
+                <button
+                  onClick={() => setShowBlockModal(true)}
+                  className="flex-1 py-2 rounded-lg font-bold text-sm flex items-center justify-center gap-2"
+                  style={{
+                    background: 'rgba(255,0,0,0.1)',
+                    color: '#ff4444',
+                    border: '1px solid rgba(255,0,0,0.3)'
+                  }}
+                >
+                  <Ban size={16} />
+                  Bloquear
                 </button>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Columna izquierda - Info */}
-          <div className="lg:col-span-1 space-y-6">
-            {/* Información básica */}
-            <div className="card-sexy">
-              <h3 className="text-xl font-bold text-white mb-4">📍 Información</h3>
-              <div className="space-y-3 text-sm">
-                <div>
-                  <p className="text-gray-400">Ubicación:</p>
-                  <p className="text-white font-medium">{miembro.location}</p>
-                </div>
-                <div>
-                  <p className="text-gray-400">Edad:</p>
-                  <p className="text-white font-medium">{miembro.age} años</p>
-                </div>
-                <div>
-                  <p className="text-gray-400">Tipo:</p>
-                  <p className="text-white font-medium capitalize">{miembro.type}</p>
-                </div>
-                {miembro.ultimaConexion && (
-                  <div>
-                    <p className="text-gray-400">Última conexión:</p>
-                    <p style={{ color: 'var(--sexy-gold)' }} className="font-medium">{miembro.ultimaConexion}</p>
-                  </div>
-                )}
-                {miembro.trustScore && (
-                  <div>
-                    <p className="text-gray-400">Puntuación de confianza:</p>
-                    <p className="text-white font-medium">{miembro.trustScore}%</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Rasgos de personalidad */}
-            {miembro.personalityTraits && miembro.personalityTraits.length > 0 && (
-              <div className="card-sexy">
-                <h3 className="text-xl font-bold text-white mb-4">✨ Personalidad</h3>
-                <div className="flex flex-wrap gap-2">
-                  {miembro.personalityTraits.map((trait, idx) => (
-                    <span
-                      key={idx}
-                      className="px-3 py-2 rounded-full text-sm font-medium"
-                      style={{
-                        background: 'rgba(255,8,68,0.2)',
-                        color: 'var(--sexy-gold)',
-                        border: '1px solid rgba(255,184,0,0.5)'
-                      }}
-                    >
-                      {trait}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Fantasías */}
-            {miembro.fantasias && miembro.fantasias.length > 0 && (
-              <div className="card-sexy">
-                <h3 className="text-xl font-bold text-white mb-4">🔥 Fantasías</h3>
-                <div className="space-y-2">
-                  {miembro.fantasias.map((fantasia, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-center gap-2 text-sm"
-                    >
-                      <span style={{ color: 'var(--sexy-red)' }}>•</span>
-                      <span className="text-white">{fantasia}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Estadísticas */}
-            <div className="card-sexy">
-              <h3 className="text-xl font-bold text-white mb-4">📊 Estadísticas</h3>
-              <div className="space-y-3">
-                {miembro.likesRecibidos && (
-                  <div className="flex justify-between items-center p-3 rounded-lg" style={{
-                    background: 'rgba(255,8,68,0.1)',
-                    border: '1px solid rgba(255,8,68,0.3)'
-                  }}>
-                    <span className="text-gray-200">Likes recibidos:</span>
-                    <span className="font-bold text-white">{miembro.likesRecibidos}</span>
-                  </div>
-                )}
-                {miembro.mensajesRecibidos && (
-                  <div className="flex justify-between items-center p-3 rounded-lg" style={{
-                    background: 'rgba(255,184,0,0.1)',
-                    border: '1px solid rgba(255,184,0,0.3)'
-                  }}>
-                    <span className="text-gray-200">Mensajes recibidos:</span>
-                    <span className="font-bold text-white">{miembro.mensajesRecibidos}</span>
-                  </div>
-                )}
-                {miembro.encuentrosRealizados && (
-                  <div className="flex justify-between items-center p-3 rounded-lg" style={{
-                    background: 'rgba(255,8,68,0.1)',
-                    border: '1px solid rgba(255,8,68,0.3)'
-                  }}>
-                    <span className="text-gray-200">Encuentros:</span>
-                    <span className="font-bold text-white">{miembro.encuentrosRealizados}</span>
-                  </div>
-                )}
-              </div>
-            </div>
+        {/* Tabs */}
+        <div className="card-sexy mb-6">
+          <div className="flex gap-4 border-b" style={{ borderColor: 'rgba(255,8,68,0.3)' }}>
+            {[
+              { id: 'about', label: 'Sobre mí' },
+              { id: 'photos', label: 'Fotos' },
+              { id: 'preferences', label: 'Preferencias' }
+            ].map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className="px-6 py-4 font-bold transition-all"
+                style={{
+                  color: activeTab === tab.id ? 'var(--sexy-red)' : '#999',
+                  borderBottom: activeTab === tab.id ? '3px solid var(--sexy-red)' : 'none'
+                }}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
 
-          {/* Columna derecha - Contenido */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Bio */}
-            {miembro.bio && (
-              <div className="card-sexy">
-                <h3 className="text-xl font-bold text-white mb-4">💬 Sobre mí</h3>
-                <p className="text-gray-300 leading-relaxed">{miembro.bio}</p>
+          <div className="p-6">
+            {activeTab === 'about' && (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Descripción</h3>
+                  <p className="text-gray-300 leading-relaxed">
+                    {miembro.bio || 'Este usuario no ha añadido una descripción todavía.'}
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Intereses</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {miembro.personalityTraits?.map((trait, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1 rounded-full text-sm font-bold"
+                        style={{
+                          background: 'rgba(255,8,68,0.2)',
+                          color: 'var(--sexy-gold)'
+                        }}
+                      >
+                        {trait}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             )}
 
-            {/* Tabs */}
-            <div className="card-sexy">
-              <div className="flex gap-4 mb-6" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                <button
-                  onClick={() => setActiveTab('fotos')}
-                  className="px-4 py-3 font-bold flex items-center gap-2 transition-all"
-                  style={{
-                    color: activeTab === 'fotos' ? 'var(--sexy-red)' : 'white',
-                    borderBottom: activeTab === 'fotos' ? '3px solid var(--sexy-red)' : 'none'
-                  }}
-                >
-                  <Camera size={20} />
-                  Fotos ({miembro.media?.photos?.length || 0})
-                </button>
-                {miembro.media?.videos && (
-                  <button
-                    onClick={() => setActiveTab('videos')}
-                    className="px-4 py-3 font-bold flex items-center gap-2 transition-all"
+            {activeTab === 'photos' && (
+              <div className="grid grid-cols-3 gap-4">
+                {miembro.media?.photos?.map((foto, idx) => (
+                  <div
+                    key={idx}
+                    className="aspect-square rounded-xl overflow-hidden cursor-pointer hover:scale-105 transition-all"
                     style={{
-                      color: activeTab === 'videos' ? 'var(--sexy-red)' : 'white',
-                      borderBottom: activeTab === 'videos' ? '3px solid var(--sexy-red)' : 'none'
+                      border: '2px solid rgba(255,8,68,0.3)',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
                     }}
                   >
-                    <Video size={20} />
-                    Videos ({miembro.media.videos})
-                  </button>
-                )}
+                    <img
+                      src={foto}
+                      alt={`Foto ${idx + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
               </div>
+            )}
 
-              {/* Galería de fotos */}
-              {activeTab === 'fotos' && miembro.media?.photos && (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {miembro.media.photos.map((foto, idx) => (
-                    <motion.div
-                      key={idx}
-                      whileHover={{ scale: 1.05 }}
-                      className="aspect-square rounded-xl overflow-hidden cursor-pointer"
-                      style={{
-                        border: '2px solid rgba(255,8,68,0.3)'
-                      }}
-                    >
-                      <img
-                        src={foto}
-                        alt={`Foto ${idx + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </motion.div>
-                  ))}
+            {activeTab === 'preferences' && (
+              <div className="space-y-4">
+                <div>
+                  <h4 className="text-white font-bold mb-2">Busca:</h4>
+                  <p className="text-gray-300">{miembro.lookingFor || 'No especificado'}</p>
                 </div>
-              )}
-
-              {/* Videos */}
-              {activeTab === 'videos' && miembro.media?.videos && (
-                <div className="text-center py-12">
-                  <Video size={48} className="mx-auto mb-4" style={{ color: 'var(--sexy-gold)' }} />
-                  <p className="text-gray-400">
-                    {miembro.name} tiene {miembro.media.videos} videos
-                  </p>
+                <div>
+                  <h4 className="text-white font-bold mb-2">Experiencia:</h4>
+                  <p className="text-gray-300">{miembro.experience || 'No especificado'}</p>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Modales */}
+      <ReportModal
+        isOpen={showReportModal}
+        onClose={() => setShowReportModal(false)}
+        reportedUser={miembro}
+        reportedType="user"
+      />
+
+      <BlockUserModal
+        isOpen={showBlockModal}
+        onClose={() => setShowBlockModal(false)}
+        user={miembro}
+        onBlock={(userId) => {
+          console.log('Usuario bloqueado:', userId);
+          onBack();
+        }}
+      />
     </div>
   );
 };

@@ -1,26 +1,14 @@
 import React from 'react';
 import { Calendar, Users, Image, Video, Flame } from 'lucide-react';
+import TODOS_MIEMBROS from '../../data/memberGenerator';
 
 const Sidebar = ({ onNavigate }) => {
-  // Generar visitantes con IDs únicos
-  const visitantes = [
-    { id: 1, nombre: 'Laura', foto: 'https://randomuser.me/api/portraits/women/1.jpg' },
-    { id: 2, nombre: 'Carlos', foto: 'https://randomuser.me/api/portraits/men/2.jpg' },
-    { id: 3, nombre: 'Sofia', foto: 'https://randomuser.me/api/portraits/women/3.jpg' },
-    { id: 4, nombre: 'Miguel', foto: 'https://randomuser.me/api/portraits/men/4.jpg' },
-    { id: 5, nombre: 'Ana', foto: 'https://randomuser.me/api/portraits/women/5.jpg' },
-    { id: 6, nombre: 'Javier', foto: 'https://randomuser.me/api/portraits/men/6.jpg' },
-    { id: 7, nombre: 'Paula', foto: 'https://randomuser.me/api/portraits/women/7.jpg' },
-    { id: 8, nombre: 'David', foto: 'https://randomuser.me/api/portraits/men/8.jpg' },
-    { id: 9, nombre: 'Emma', foto: 'https://randomuser.me/api/portraits/women/9.jpg' },
-    { id: 10, nombre: 'Roberto', foto: 'https://randomuser.me/api/portraits/men/10.jpg' }
-  ];
+  // Obtener 10 visitantes únicos
+  const visitantes = TODOS_MIEMBROS.slice(0, 10);
 
-  const handleVerPerfil = (visitante) => {
-    // Por ahora ir a la vista de Gente
-    // En el futuro se puede crear una vista específica de perfil
+  const handleVerPerfil = (miembro) => {
     if (onNavigate) {
-      onNavigate('gente');
+      onNavigate('perfil-publico', miembro);
     }
   };
 
@@ -135,7 +123,7 @@ const Sidebar = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* Visitaron tu perfil - AHORA CON CLICK */}
+      {/* Visitaron tu perfil - CON CLICS INDIVIDUALES */}
       <div className="card-sexy">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-bold text-white text-lg">👁️ Visitaron tu perfil</h3>
@@ -143,8 +131,11 @@ const Sidebar = ({ onNavigate }) => {
         <div className="grid grid-cols-5 gap-2">
           {visitantes.map((visitante) => (
             <div 
-              key={visitante.id} 
-              onClick={() => handleVerPerfil(visitante)}
+              key={visitante.id}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleVerPerfil(visitante);
+              }}
               className="aspect-square rounded-lg overflow-hidden hover:scale-110 transition-transform cursor-pointer relative group"
               style={{
                 border: '2px solid rgba(255,8,68,0.5)',
@@ -152,14 +143,13 @@ const Sidebar = ({ onNavigate }) => {
               }}
             >
               <img 
-                src={visitante.foto}
-                alt={visitante.nombre}
+                src={visitante.media?.photos?.[0]}
+                alt={visitante.name}
                 className="w-full h-full object-cover"
               />
-              {/* Overlay con nombre al hacer hover */}
               <div className="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                 <span className="text-white text-xs font-bold text-center px-1">
-                  {visitante.nombre}
+                  {visitante.name}
                 </span>
               </div>
             </div>

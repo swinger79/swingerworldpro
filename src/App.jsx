@@ -12,6 +12,8 @@ import MensajesView from './views/MensajesView';
 import EditarPerfilView from './views/EditarPerfilView';
 import CitasView from './views/CitasView';
 import PerfilView from './views/PerfilView';
+import OrganizarFotosView from './views/OrganizarFotosView';
+import OrganizarVideosView from './views/OrganizarVideosView';
 
 const App = () => {
   const [currentView, setCurrentView] = useState('inicio');
@@ -28,7 +30,7 @@ const App = () => {
     </div>
   );
 
-  const showSidebar = currentView === 'perfil' ? false : true;
+  const showSidebar = !['perfil', 'organizar-fotos', 'organizar-videos'].includes(currentView);
 
   return (
     <div className="min-h-screen" style={{ 
@@ -38,8 +40,12 @@ const App = () => {
       <MainMenu currentView={currentView} onNavigate={handleNavigation} />
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {currentView === 'perfil' ? (
-          <PerfilView onNavigate={handleNavigation} />
+        {['perfil', 'organizar-fotos', 'organizar-videos'].includes(currentView) ? (
+          <>
+            {currentView === 'perfil' && <PerfilView onNavigate={handleNavigation} />}
+            {currentView === 'organizar-fotos' && <OrganizarFotosView />}
+            {currentView === 'organizar-videos' && <OrganizarVideosView />}
+          </>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             {showSidebar && (

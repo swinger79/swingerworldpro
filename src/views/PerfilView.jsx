@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Camera, Video, Edit3, MapPin, Heart, Users, Calendar, Home, Star } from 'lucide-react';
+import { Camera, Video, Edit3, MapPin, Users, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const PerfilView = ({ onNavigate }) => {
   const [activeTab, setActiveTab] = useState('fotos');
 
-  // Datos del usuario actual
   const userProfile = {
     name: 'Laura & Carlos',
     age: 29,
@@ -81,7 +80,6 @@ const PerfilView = ({ onNavigate }) => {
   return (
     <div className="min-h-screen">
       <div className="max-w-7xl mx-auto">
-        {/* Header del perfil */}
         <div className="card-sexy p-8 mb-6">
           <div className="flex items-start gap-6">
             <img
@@ -114,6 +112,7 @@ const PerfilView = ({ onNavigate }) => {
                   Editar Perfil
                 </button>
                 <button
+                  onClick={() => onNavigate('organizar-fotos')}
                   className="px-6 py-3 rounded-lg font-bold flex items-center gap-2"
                   style={{
                     background: 'rgba(255,184,0,0.2)',
@@ -125,6 +124,7 @@ const PerfilView = ({ onNavigate }) => {
                   Organizar Fotos
                 </button>
                 <button
+                  onClick={() => onNavigate('organizar-videos')}
                   className="px-6 py-3 rounded-lg font-bold flex items-center gap-2"
                   style={{
                     background: 'rgba(255,184,0,0.2)',
@@ -141,9 +141,7 @@ const PerfilView = ({ onNavigate }) => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Columna izquierda - Info */}
           <div className="lg:col-span-1 space-y-6">
-            {/* Información básica */}
             <div className="card-sexy">
               <h3 className="text-xl font-bold text-white mb-4">📍 Información</h3>
               <div className="space-y-3 text-sm">
@@ -190,7 +188,6 @@ const PerfilView = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* Buscan */}
             <div className="card-sexy">
               <h3 className="text-xl font-bold text-white mb-4">🔍 Buscan</h3>
               <div className="space-y-2">
@@ -210,7 +207,6 @@ const PerfilView = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* Para */}
             <div className="card-sexy">
               <h3 className="text-xl font-bold text-white mb-4">🔥 Para</h3>
               <div className="space-y-2">
@@ -231,9 +227,7 @@ const PerfilView = ({ onNavigate }) => {
             </div>
           </div>
 
-          {/* Columna derecha - Contenido */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Tabs */}
             <div className="card-sexy">
               <div className="flex gap-4 mb-6" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                 <button
@@ -260,7 +254,6 @@ const PerfilView = ({ onNavigate }) => {
                 </button>
               </div>
 
-              {/* Galería de fotos */}
               {activeTab === 'fotos' && (
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {userProfile.fotos.map((foto, idx) => (
@@ -282,7 +275,6 @@ const PerfilView = ({ onNavigate }) => {
                 </div>
               )}
 
-              {/* Galería de videos */}
               {activeTab === 'videos' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {userProfile.videos.map((video) => (
@@ -322,7 +314,6 @@ const PerfilView = ({ onNavigate }) => {
               )}
             </div>
 
-            {/* Amigos */}
             <div className="card-sexy">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-bold text-white flex items-center gap-2">
@@ -347,7 +338,6 @@ const PerfilView = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* Clubs favoritos */}
             <div className="card-sexy">
               <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
                 <Star size={24} style={{ color: 'var(--sexy-gold)' }} />

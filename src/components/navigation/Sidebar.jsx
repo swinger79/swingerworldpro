@@ -1,7 +1,29 @@
 import React from 'react';
 import { Calendar, Users, Image, Video, Flame } from 'lucide-react';
 
-const Sidebar = () => {
+const Sidebar = ({ onNavigate }) => {
+  // Generar visitantes con IDs únicos
+  const visitantes = [
+    { id: 1, nombre: 'Laura', foto: 'https://randomuser.me/api/portraits/women/1.jpg' },
+    { id: 2, nombre: 'Carlos', foto: 'https://randomuser.me/api/portraits/men/2.jpg' },
+    { id: 3, nombre: 'Sofia', foto: 'https://randomuser.me/api/portraits/women/3.jpg' },
+    { id: 4, nombre: 'Miguel', foto: 'https://randomuser.me/api/portraits/men/4.jpg' },
+    { id: 5, nombre: 'Ana', foto: 'https://randomuser.me/api/portraits/women/5.jpg' },
+    { id: 6, nombre: 'Javier', foto: 'https://randomuser.me/api/portraits/men/6.jpg' },
+    { id: 7, nombre: 'Paula', foto: 'https://randomuser.me/api/portraits/women/7.jpg' },
+    { id: 8, nombre: 'David', foto: 'https://randomuser.me/api/portraits/men/8.jpg' },
+    { id: 9, nombre: 'Emma', foto: 'https://randomuser.me/api/portraits/women/9.jpg' },
+    { id: 10, nombre: 'Roberto', foto: 'https://randomuser.me/api/portraits/men/10.jpg' }
+  ];
+
+  const handleVerPerfil = (visitante) => {
+    // Por ahora ir a la vista de Gente
+    // En el futuro se puede crear una vista específica de perfil
+    if (onNavigate) {
+      onNavigate('gente');
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Solicitudes pendientes */}
@@ -113,22 +135,33 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Visitaron tu perfil */}
+      {/* Visitaron tu perfil - AHORA CON CLICK */}
       <div className="card-sexy">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-bold text-white text-lg">👁️ Visitaron tu perfil</h3>
         </div>
         <div className="grid grid-cols-5 gap-2">
-          {[1,2,3,4,5,6,7,8,9,10].map((i) => (
-            <div key={i} className="aspect-square rounded-lg overflow-hidden hover:scale-110 transition-transform" style={{
-              border: '2px solid rgba(255,8,68,0.5)',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.4)'
-            }}>
+          {visitantes.map((visitante) => (
+            <div 
+              key={visitante.id} 
+              onClick={() => handleVerPerfil(visitante)}
+              className="aspect-square rounded-lg overflow-hidden hover:scale-110 transition-transform cursor-pointer relative group"
+              style={{
+                border: '2px solid rgba(255,8,68,0.5)',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.4)'
+              }}
+            >
               <img 
-                src={`https://randomuser.me/api/portraits/${i % 2 === 0 ? 'women' : 'men'}/${i}.jpg`}
-                alt="Visitor"
+                src={visitante.foto}
+                alt={visitante.nombre}
                 className="w-full h-full object-cover"
               />
+              {/* Overlay con nombre al hacer hover */}
+              <div className="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span className="text-white text-xs font-bold text-center px-1">
+                  {visitante.nombre}
+                </span>
+              </div>
             </div>
           ))}
         </div>
@@ -141,16 +174,25 @@ const Sidebar = () => {
             <Image size={20} style={{ color: 'var(--sexy-gold)' }} />
             <h3 className="font-bold text-white text-lg">Últimas fotos</h3>
           </div>
-          <button className="text-sm font-bold hover:underline" style={{ color: 'var(--sexy-red)' }}>
+          <button 
+            onClick={() => onNavigate && onNavigate('organizar-fotos')}
+            className="text-sm font-bold hover:underline" 
+            style={{ color: 'var(--sexy-red)' }}
+          >
             Ver todas
           </button>
         </div>
         <div className="grid grid-cols-3 gap-2">
           {[1,2,3,4,5,6].map((i) => (
-            <div key={i} className="aspect-square rounded-lg overflow-hidden hover:scale-110 transition-transform" style={{
-              border: '2px solid rgba(255,8,68,0.5)',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.4)'
-            }}>
+            <div 
+              key={i} 
+              onClick={() => onNavigate && onNavigate('organizar-fotos')}
+              className="aspect-square rounded-lg overflow-hidden hover:scale-110 transition-transform cursor-pointer" 
+              style={{
+                border: '2px solid rgba(255,8,68,0.5)',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.4)'
+              }}
+            >
               <img 
                 src={`https://picsum.photos/200/200?random=${i}`}
                 alt="Photo"
@@ -168,17 +210,26 @@ const Sidebar = () => {
             <Video size={20} style={{ color: 'var(--sexy-gold)' }} />
             <h3 className="font-bold text-white text-lg">Últimos videos</h3>
           </div>
-          <button className="text-sm font-bold hover:underline" style={{ color: 'var(--sexy-red)' }}>
+          <button 
+            onClick={() => onNavigate && onNavigate('organizar-videos')}
+            className="text-sm font-bold hover:underline" 
+            style={{ color: 'var(--sexy-red)' }}
+          >
             Ver todos
           </button>
         </div>
         <div className="grid grid-cols-2 gap-2">
           {[1,2,3,4].map((i) => (
-            <div key={i} className="relative aspect-video rounded-lg overflow-hidden hover:scale-105 transition-transform" style={{
-              border: '2px solid rgba(255,8,68,0.5)',
-              background: 'rgba(0,0,0,0.6)',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.4)'
-            }}>
+            <div 
+              key={i} 
+              onClick={() => onNavigate && onNavigate('organizar-videos')}
+              className="relative aspect-video rounded-lg overflow-hidden hover:scale-105 transition-transform cursor-pointer" 
+              style={{
+                border: '2px solid rgba(255,8,68,0.5)',
+                background: 'rgba(0,0,0,0.6)',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.4)'
+              }}
+            >
               <img 
                 src={`https://picsum.photos/300/200?random=${i + 10}`}
                 alt="Video"

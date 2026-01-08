@@ -50,7 +50,7 @@ const App = () => {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             {showSidebar && (
               <div className="lg:col-span-1">
-                <Sidebar />
+                <Sidebar onNavigate={handleNavigation} />
               </div>
             )}
 

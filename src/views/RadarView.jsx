@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { AI_MEMBERS_ENHANCED } from '../data/membersAIEnhanced';
+import TODOS_MIEMBROS from '../data/memberGenerator';
 import { MapPin, Heart, X, Info, Minus, Plus } from 'lucide-react';
 
 const RadarView = () => {
@@ -15,7 +15,10 @@ const RadarView = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const nearbyMembers = AI_MEMBERS_ENHANCED.filter(m => m.status === 'online').slice(0, 15);
+  // Filtrar solo usuarios online y dentro del radio
+  const nearbyMembers = TODOS_MIEMBROS
+    .filter(m => m.status === 'online')
+    .slice(0, 50); // Mostrar 50 usuarios online
 
   const getMemberPosition = (index, total) => {
     const angle = (index / total) * 2 * Math.PI;
@@ -84,10 +87,6 @@ const RadarView = () => {
                 background: `linear-gradient(to right, var(--sexy-red) 0%, var(--sexy-red) ${((distance - 40) / 5960) * 100}%, var(--sexy-gray) ${((distance - 40) / 5960) * 100}%, var(--sexy-gray) 100%)`
               }}
             />
-            <div className="flex justify-between text-xs text-gray-400 mt-1">
-              <span>40m</span>
-              <span>6km</span>
-            </div>
           </div>
 
           <p className="text-gray-400">
@@ -208,6 +207,7 @@ const RadarView = () => {
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-white">{selectedMember.name}</h3>
                   <p className="text-sm text-gray-300">{selectedMember.age} años</p>
+                  <p className="text-xs text-gray-400">{selectedMember.type}</p>
                   <div className="flex items-center text-xs mt-1" style={{ color: 'var(--sexy-gold)' }}>
                     <MapPin size={12} className="mr-1" />
                     {Math.floor(Math.random() * distance)}m
@@ -250,21 +250,6 @@ const RadarView = () => {
               </div>
             </motion.div>
           )}
-        </div>
-
-        <div className="mt-8 flex justify-center gap-6 text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full" style={{ background: 'var(--sexy-gold)' }} />
-            <span className="text-gray-400">Elite</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full" style={{ background: 'var(--sexy-red)' }} />
-            <span className="text-gray-400">Verificado</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-green-500" />
-            <span className="text-gray-400">Online</span>
-          </div>
         </div>
       </div>
     </div>

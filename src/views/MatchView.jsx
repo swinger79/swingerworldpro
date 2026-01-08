@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, X, MessageCircle, Star, MapPin, UserPlus } from 'lucide-react';
-import { AI_MEMBERS_ENHANCED } from '../data/membersAIEnhanced';
+import TODOS_MIEMBROS from '../data/memberGenerator';
 import TrustBadge from '../components/TrustBadge';
 
 const MatchView = () => {
@@ -10,7 +10,7 @@ const MatchView = () => {
   const [showMatchModal, setShowMatchModal] = useState(false);
   const [matchedUser, setMatchedUser] = useState(null);
 
-  const currentMember = AI_MEMBERS_ENHANCED[currentIndex];
+  const currentMember = TODOS_MIEMBROS[currentIndex];
 
   const handleSwipe = (liked) => {
     setDirection(liked ? 'right' : 'left');
@@ -21,7 +21,7 @@ const MatchView = () => {
     }
     
     setTimeout(() => {
-      setCurrentIndex((prev) => (prev + 1) % AI_MEMBERS_ENHANCED.length);
+      setCurrentIndex((prev) => (prev + 1) % TODOS_MIEMBROS.length);
       setDirection(null);
     }, 300);
   };
@@ -43,7 +43,6 @@ const MatchView = () => {
       <div className="max-w-2xl mx-auto px-4">
         <h2 className="text-4xl font-bold text-center mb-8 fire-text">💘 Match</h2>
 
-        {/* Card */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -59,17 +58,14 @@ const MatchView = () => {
               boxShadow: 'var(--shadow-strong)'
             }}
           >
-            {/* Foto REAL */}
             <img
               src={currentMember.media?.photos?.[0]}
               alt={currentMember.name}
               className="w-full h-full object-cover"
             />
 
-            {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
 
-            {/* Trust Badge */}
             <div className="absolute top-4 right-4">
               <TrustBadge
                 trustScore={currentMember.trustScore}
@@ -78,7 +74,6 @@ const MatchView = () => {
               />
             </div>
 
-            {/* Info */}
             <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
               <h3 className="text-3xl font-bold mb-2">{currentMember.name}, {currentMember.age}</h3>
               <div className="flex items-center text-sm mb-3">
@@ -109,7 +104,6 @@ const MatchView = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Botones */}
         <div className="flex justify-center items-center gap-6 mt-8">
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -152,7 +146,6 @@ const MatchView = () => {
           </motion.button>
         </div>
 
-        {/* Match Modal */}
         {showMatchModal && matchedUser && (
           <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.9)' }}>
             <motion.div

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, Video, MapPin, Smile } from 'lucide-react';
 import TrustBadge from '../components/TrustBadge';
 import { AI_MEMBERS_ENHANCED } from '../data/membersAIEnhanced';
+import PerfilModal from '../components/PerfilModal';
 
-const InicioView = () => {
+const InicioView = ({ onNavigate }) => {
+  const [selectedMember, setSelectedMember] = useState(null);
+
   const posts = [
     {
       id: 1,
@@ -24,9 +27,14 @@ const InicioView = () => {
     }
   ];
 
+  const handleSendMessage = (miembro) => {
+    if (onNavigate) {
+      onNavigate('mensajes');
+    }
+  };
+
   return (
     <div className="space-y-6">
-      {/* Crear publicación */}
       <div className="rounded-xl p-6" style={{
         background: 'var(--bg-card)',
         border: '1px solid var(--border-subtle)'
@@ -35,7 +43,8 @@ const InicioView = () => {
           <img
             src="https://i.pravatar.cc/150?img=1"
             alt="Usuario"
-            className="w-12 h-12 rounded-full object-cover"
+            className="w-12 h-12 rounded-full object-cover cursor-pointer"
+            onClick={() => onNavigate && onNavigate('perfil')}
           />
           <input
             type="text"
@@ -78,15 +87,16 @@ const InicioView = () => {
         </div>
       </div>
 
-      {/* Feed de publicaciones */}
       {posts.map(post => (
         <div key={post.id} className="rounded-xl overflow-hidden" style={{
           background: 'var(--bg-card)',
           border: '1px solid var(--border-subtle)'
         }}>
-          {/* Header */}
           <div className="p-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
+            <div 
+              className="flex items-center gap-3 cursor-pointer"
+              onClick={() => setSelectedMember(post.author)}
+            >
               <img
                 src={post.author.media?.photos?.[0]}
                 alt={post.author.name}
@@ -106,21 +116,19 @@ const InicioView = () => {
             </div>
           </div>
 
-          {/* Contenido */}
           <div className="px-4 pb-4">
             <p className="text-white mb-4">{post.content}</p>
           </div>
 
-          {/* Imagen */}
           {post.image && (
             <img
               src={post.image}
               alt="Post"
-              className="w-full h-96 object-cover"
+              className="w-full h-96 object-cover cursor-pointer"
+              onClick={() => setSelectedMember(post.author)}
             />
           )}
 
-          {/* Acciones */}
           <div className="p-4 flex items-center justify-between" style={{
             borderTop: '1px solid var(--border-subtle)'
           }}>
@@ -139,6 +147,14 @@ const InicioView = () => {
           </div>
         </div>
       ))}
+
+      {selectedMember && (
+        <PerfilModal
+          miembro={selectedMember}
+          onClose={() => setSelectedMember(null)}
+          onSendMessage={handleSendMessage}
+        />
+      )}
     </div>
   );
 };

@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import TODOS_MIEMBROS from '../data/memberGenerator';
 import TrustBadge from '../components/TrustBadge';
+import PerfilModal from '../components/PerfilModal';
 
-const GenteView = () => {
+const GenteView = ({ onNavigate }) => {
   const [showFilters, setShowFilters] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [tipoFiltro, setTipoFiltro] = useState('todos');
+  const [selectedMember, setSelectedMember] = useState(null);
 
-  // Filtrar miembros
   let miembrosFiltrados = TODOS_MIEMBROS;
 
   if (tipoFiltro !== 'todos') {
@@ -22,12 +23,17 @@ const GenteView = () => {
     );
   }
 
+  const handleSendMessage = (miembro) => {
+    if (onNavigate) {
+      onNavigate('mensajes');
+    }
+  };
+
   return (
     <div className="min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-4xl font-bold mb-6 fire-text">👥 Gente</h2>
 
-        {/* Búsqueda y filtros */}
         <div className="mb-6 space-y-4">
           <div className="flex gap-4">
             <div className="flex-1 relative">
@@ -58,7 +64,6 @@ const GenteView = () => {
             </button>
           </div>
 
-          {/* Filtros rápidos */}
           <div className="flex gap-3">
             <button
               onClick={() => setTipoFiltro('todos')}
@@ -103,11 +108,11 @@ const GenteView = () => {
           </div>
         </div>
 
-        {/* Grid de miembros */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {miembrosFiltrados.slice(0, 50).map((member) => (
             <div
               key={member.id}
+              onClick={() => setSelectedMember(member)}
               className="card-sexy overflow-hidden cursor-pointer"
             >
               <div className="relative h-64">
@@ -177,6 +182,14 @@ const GenteView = () => {
           </div>
         )}
       </div>
+
+      {selectedMember && (
+        <PerfilModal
+          miembro={selectedMember}
+          onClose={() => setSelectedMember(null)}
+          onSendMessage={handleSendMessage}
+        />
+      )}
     </div>
   );
 };

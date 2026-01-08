@@ -55,12 +55,12 @@ const App = () => {
             )}
 
             <div className={showSidebar ? 'lg:col-span-3' : 'lg:col-span-4'}>
-              {currentView === 'inicio' && <InicioView />}
-              {currentView === 'amigos' && <AmigosView />}
-              {currentView === 'todos-amigos' && <AmigosView />}
+              {currentView === 'inicio' && <InicioView onNavigate={handleNavigation} />}
+              {currentView === 'amigos' && <AmigosView onNavigate={handleNavigation} />}
+              {currentView === 'todos-amigos' && <AmigosView onNavigate={handleNavigation} />}
               {currentView === 'favoritos' && <PlaceholderView title="Mis Favoritos" />}
               {currentView === 'solicitudes' && <PlaceholderView title="Solicitudes de Amistad" />}
-              {currentView === 'gente' && <GenteView />}
+              {currentView === 'gente' && <GenteView onNavigate={handleNavigation} />}
               {currentView === 'radar' && <RadarView />}
               {currentView === 'match' && <MatchView onNavigate={handleNavigation} />}
               {currentView === 'mensajes' && <MensajesView />}

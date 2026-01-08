@@ -11,6 +11,7 @@ import GenteView from './views/GenteView';
 import MensajesView from './views/MensajesView';
 import EditarPerfilView from './views/EditarPerfilView';
 import CitasView from './views/CitasView';
+import PerfilView from './views/PerfilView';
 
 const App = () => {
   const [currentView, setCurrentView] = useState('inicio');
@@ -27,7 +28,7 @@ const App = () => {
     </div>
   );
 
-  const showSidebar = true;
+  const showSidebar = currentView === 'perfil' ? false : true;
 
   return (
     <div className="min-h-screen" style={{ 
@@ -37,33 +38,36 @@ const App = () => {
       <MainMenu currentView={currentView} onNavigate={handleNavigation} />
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {showSidebar && (
-            <div className="lg:col-span-1">
-              <Sidebar />
-            </div>
-          )}
+        {currentView === 'perfil' ? (
+          <PerfilView onNavigate={handleNavigation} />
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {showSidebar && (
+              <div className="lg:col-span-1">
+                <Sidebar />
+              </div>
+            )}
 
-          <div className={showSidebar ? 'lg:col-span-3' : 'lg:col-span-4'}>
-            {currentView === 'inicio' && <InicioView />}
-            {currentView === 'amigos' && <AmigosView />}
-            {currentView === 'todos-amigos' && <AmigosView />}
-            {currentView === 'favoritos' && <PlaceholderView title="Mis Favoritos" />}
-            {currentView === 'solicitudes' && <PlaceholderView title="Solicitudes de Amistad" />}
-            {currentView === 'gente' && <GenteView />}
-            {currentView === 'radar' && <RadarView />}
-            {currentView === 'match' && <MatchView onNavigate={handleNavigation} />}
-            {currentView === 'mensajes' && <MensajesView />}
-            {currentView === 'citas' && <CitasView />}
-            {currentView === 'fiestas' && <PlaceholderView title="Fiestas" />}
-            {currentView === 'clubes' && <PlaceholderView title="Clubes" />}
-            {currentView === 'foro' && <PlaceholderView title="Foro" />}
-            {currentView === 'blog' && <PlaceholderView title="Blog" />}
-            {currentView === 'avisos' && <PlaceholderView title="Avisos" />}
-            {currentView === 'perfil' && <EditarPerfilView />}
-            {currentView === 'editar-perfil' && <EditarPerfilView />}
+            <div className={showSidebar ? 'lg:col-span-3' : 'lg:col-span-4'}>
+              {currentView === 'inicio' && <InicioView />}
+              {currentView === 'amigos' && <AmigosView />}
+              {currentView === 'todos-amigos' && <AmigosView />}
+              {currentView === 'favoritos' && <PlaceholderView title="Mis Favoritos" />}
+              {currentView === 'solicitudes' && <PlaceholderView title="Solicitudes de Amistad" />}
+              {currentView === 'gente' && <GenteView />}
+              {currentView === 'radar' && <RadarView />}
+              {currentView === 'match' && <MatchView onNavigate={handleNavigation} />}
+              {currentView === 'mensajes' && <MensajesView />}
+              {currentView === 'citas' && <CitasView />}
+              {currentView === 'fiestas' && <PlaceholderView title="Fiestas" />}
+              {currentView === 'clubes' && <PlaceholderView title="Clubes" />}
+              {currentView === 'foro' && <PlaceholderView title="Foro" />}
+              {currentView === 'blog' && <PlaceholderView title="Blog" />}
+              {currentView === 'avisos' && <PlaceholderView title="Avisos" />}
+              {currentView === 'editar-perfil' && <EditarPerfilView />}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <Footer />

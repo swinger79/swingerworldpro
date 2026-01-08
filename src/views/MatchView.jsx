@@ -4,7 +4,7 @@ import { Heart, X, MessageCircle, Star, MapPin, UserPlus } from 'lucide-react';
 import TODOS_MIEMBROS from '../data/memberGenerator';
 import TrustBadge from '../components/TrustBadge';
 
-const MatchView = () => {
+const MatchView = ({ onNavigate }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(null);
   const [showMatchModal, setShowMatchModal] = useState(false);
@@ -27,13 +27,32 @@ const MatchView = () => {
   };
 
   const handleSendMessage = () => {
-    alert('Abriendo chat con ' + matchedUser.name);
     setShowMatchModal(false);
+    // Navegar a mensajes en lugar de alert
+    if (onNavigate) {
+      onNavigate('mensajes');
+    }
   };
 
   const handleAddFriend = () => {
-    alert('Solicitud de amistad enviada a ' + matchedUser.name);
     setShowMatchModal(false);
+    // Mostrar notificación visual en lugar de alert
+    const notification = document.createElement('div');
+    notification.textContent = `Solicitud enviada a ${matchedUser.name}`;
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #FF0844 0%, #FFB800 100%);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 12px;
+      z-index: 9999;
+      font-weight: bold;
+      box-shadow: 0 4px 20px rgba(255,8,68,0.4);
+    `;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 3000);
   };
 
   if (!currentMember) return null;
@@ -53,9 +72,9 @@ const MatchView = () => {
             className="relative rounded-3xl overflow-hidden"
             style={{
               height: '600px',
-              background: 'var(--bg-card)',
-              border: '2px solid var(--border-subtle)',
-              boxShadow: 'var(--shadow-strong)'
+              background: 'linear-gradient(135deg, rgba(26,26,26,0.95) 0%, rgba(40,10,10,0.95) 100%)',
+              border: '2px solid rgba(255,8,68,0.3)',
+              boxShadow: '0 20px 60px rgba(255,8,68,0.4)'
             }}
           >
             <img
@@ -88,9 +107,9 @@ const MatchView = () => {
                       key={idx}
                       className="px-3 py-1 rounded-full text-sm font-medium"
                       style={{
-                        background: 'rgba(255,8,68,0.2)',
+                        background: 'rgba(255,8,68,0.3)',
                         color: 'var(--sexy-gold)',
-                        border: '1px solid rgba(255,184,0,0.3)'
+                        border: '1px solid rgba(255,184,0,0.5)'
                       }}
                     >
                       {trait}
@@ -111,9 +130,9 @@ const MatchView = () => {
             onClick={() => handleSwipe(false)}
             className="w-16 h-16 rounded-full flex items-center justify-center"
             style={{
-              background: 'rgba(255,255,255,0.1)',
+              background: 'rgba(26,26,26,0.95)',
               border: '3px solid #FF0844',
-              boxShadow: '0 0 20px rgba(255,8,68,0.3)'
+              boxShadow: '0 0 20px rgba(255,8,68,0.4)'
             }}
           >
             <X size={32} color="#FF0844" />
@@ -123,10 +142,10 @@ const MatchView = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => handleSwipe(true)}
-            className="w-20 h-20 rounded-full flex items-center justify-center"
+            className="w-20 h-20 rounded-full flex items-center justify-center fire-pulse"
             style={{
               background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
-              boxShadow: '0 0 30px rgba(255,8,68,0.5)'
+              boxShadow: '0 0 30px rgba(255,8,68,0.6)'
             }}
           >
             <Heart size={40} color="white" fill="white" />
@@ -137,9 +156,9 @@ const MatchView = () => {
             whileTap={{ scale: 0.9 }}
             className="w-16 h-16 rounded-full flex items-center justify-center"
             style={{
-              background: 'rgba(255,255,255,0.1)',
+              background: 'rgba(26,26,26,0.95)',
               border: '3px solid #FFB800',
-              boxShadow: '0 0 20px rgba(255,184,0,0.3)'
+              boxShadow: '0 0 20px rgba(255,184,0,0.4)'
             }}
           >
             <Star size={28} color="#FFB800" />
@@ -147,15 +166,15 @@ const MatchView = () => {
         </div>
 
         {showMatchModal && matchedUser && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.9)' }}>
+          <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.95)' }}>
             <motion.div
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               className="text-center p-8 rounded-3xl max-w-md"
               style={{
-                background: 'var(--bg-card)',
-                border: '2px solid var(--border-subtle)',
-                boxShadow: 'var(--shadow-strong)'
+                background: 'linear-gradient(135deg, rgba(26,26,26,0.98) 0%, rgba(40,10,10,0.98) 100%)',
+                border: '2px solid rgba(255,8,68,0.5)',
+                boxShadow: '0 20px 60px rgba(255,8,68,0.6)'
               }}
             >
               <motion.div
@@ -193,7 +212,7 @@ const MatchView = () => {
                   style={{
                     background: 'rgba(255,184,0,0.2)',
                     color: 'var(--sexy-gold)',
-                    border: '1px solid rgba(255,184,0,0.3)'
+                    border: '1px solid rgba(255,184,0,0.5)'
                   }}
                 >
                   <UserPlus size={20} />

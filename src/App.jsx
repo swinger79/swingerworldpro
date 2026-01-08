@@ -27,11 +27,12 @@ const App = () => {
     </div>
   );
 
-  // Sidebar visible en TODAS las vistas
   const showSidebar = true;
 
   return (
-    <div className="min-h-screen" style={{ background: '#0A0A0A' }}>
+    <div className="min-h-screen" style={{ 
+      background: 'radial-gradient(circle at 20% 20%, rgba(255,8,68,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255,184,0,0.1) 0%, transparent 50%), #0A0A0A'
+    }}>
       <TopNavBar currentUser={currentUser} onNavigate={handleNavigation} />
       <MainMenu currentView={currentView} onNavigate={handleNavigation} />
 
@@ -51,7 +52,7 @@ const App = () => {
             {currentView === 'solicitudes' && <PlaceholderView title="Solicitudes de Amistad" />}
             {currentView === 'gente' && <GenteView />}
             {currentView === 'radar' && <RadarView />}
-            {currentView === 'match' && <MatchView />}
+            {currentView === 'match' && <MatchView onNavigate={handleNavigation} />}
             {currentView === 'mensajes' && <MensajesView />}
             {currentView === 'citas' && <CitasView />}
             {currentView === 'fiestas' && <PlaceholderView title="Fiestas" />}

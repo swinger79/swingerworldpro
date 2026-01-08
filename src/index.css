@@ -1,14 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600;700;800&family=Raleway:wght@400;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import './styles/sexy-theme.css';
-
-:root {
-  --font-display: 'Dancing Script', cursive;
-  --font-heading: 'Raleway', sans-serif;
-  --font-body: 'Poppins', sans-serif;
-}
 
 * {
   margin: 0;
@@ -17,61 +11,49 @@
 }
 
 body {
-  font-family: var(--font-body);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Poppins', sans-serif;
   background: #0A0A0A;
-  min-height: 100vh;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(255,8,68,0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255,184,0,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(255,8,68,0.05) 0%, transparent 100%);
+  background-attachment: fixed;
   color: white;
-  font-weight: 400;
-  letter-spacing: 0.3px;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
+  font-family: 'Raleway', sans-serif;
   font-weight: 700;
-  letter-spacing: 0.5px;
 }
 
 .font-display {
-  font-family: var(--font-display);
-  font-weight: 600;
+  font-family: 'Dancing Script', cursive;
 }
 
-p, span, div {
-  line-height: 1.6;
-}
-
-button, input, select, textarea {
-  font-family: var(--font-body);
-  letter-spacing: 0.3px;
-}
-
-@keyframes pulse-subtle {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.9; }
-}
-
-.animate-pulse-subtle {
-  animation: pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.fire-text {
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.fire-pulse {
-  animation: fire-pulse 2s ease-in-out infinite;
-}
-
-@keyframes fire-pulse {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(255,8,68,0.4);
+/* Animación de entrada suave */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  50% {
-    box-shadow: 0 0 40px rgba(255,8,68,0.8), 0 0 80px rgba(255,184,0,0.4);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Efecto de partículas de fondo */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.floating {
+  animation: float 6s ease-in-out infinite;
 }

@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { Search, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
 import TODOS_MIEMBROS from '../data/memberGenerator';
 import TrustBadge from '../components/TrustBadge';
-import PerfilModal from '../components/PerfilModal';
+import PerfilPublicoView from './PerfilPublicoView';
 
 const GenteView = ({ onNavigate }) => {
   const [showFilters, setShowFilters] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [tipoFiltro, setTipoFiltro] = useState('todos');
+  const [ordenamiento, setOrdenamiento] = useState('recientes');
   const [selectedMember, setSelectedMember] = useState(null);
 
-  let miembrosFiltrados = TODOS_MIEMBROS;
+  let miembrosFiltrados = [...TODOS_MIEMBROS];
 
+  // Filtrar por tipo
   if (tipoFiltro !== 'todos') {
     miembrosFiltrados = miembrosFiltrados.filter(m => m.type === tipoFiltro);
   }
 
+  // Filtrar por búsqueda
   if (searchTerm) {
     miembrosFiltrados = miembrosFiltrados.filter(m => 
       m.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -23,11 +26,43 @@ const GenteView = ({ onNavigate }) => {
     );
   }
 
-  const handleSendMessage = (miembro) => {
-    if (onNavigate) {
-      onNavigate('mensajes');
-    }
-  };
+  // Ordenar
+  switch(ordenamiento) {
+    case 'recientes':
+      // Ya están en orden
+      break;
+    case 'alfabetico':
+      miembrosFiltrados.sort((a, b) => a.name.localeCompare(b.name));
+      break;
+    case 'edad-asc':
+      miembrosFiltrados.sort((a, b) => a.age - b.age);
+      break;
+    case 'edad-desc':
+      miembrosFiltrados.sort((a, b) => b.age - a.age);
+      break;
+    case 'confianza':
+      miembrosFiltrados.sort((a, b) => b.trustScore - a.trustScore);
+      break;
+    case 'online':
+      miembrosFiltrados.sort((a, b) => {
+        if (a.status === 'online' && b.status !== 'online') return -1;
+        if (a.status !== 'online' && b.status === 'online') return 1;
+        return 0;
+      });
+      break;
+    default:
+      break;
+  }
+
+  if (selectedMember) {
+    return (
+      <PerfilPublicoView
+        miembro={selectedMember}
+        onNavigate={onNavigate}
+        onBack={() => setSelectedMember(null)}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen py-8">
@@ -46,17 +81,33 @@ const GenteView = ({ onNavigate }) => {
                 className="w-full pl-12 pr-4 py-3 rounded-xl text-white"
                 style={{
                   background: 'var(--bg-card)',
-                  border: '1px solid var(--border-subtle)'
+                  border: '2px solid var(--border-subtle)'
                 }}
               />
             </div>
+            <select
+              value={ordenamiento}
+              onChange={(e) => setOrdenamiento(e.target.value)}
+              className="px-6 py-3 rounded-xl font-bold text-white"
+              style={{
+                background: 'var(--bg-card)',
+                border: '2px solid var(--border-subtle)'
+              }}
+            >
+              <option value="recientes">Más recientes</option>
+              <option value="alfabetico">Alfabético (A-Z)</option>
+              <option value="edad-asc">Edad (menor a mayor)</option>
+              <option value="edad-desc">Edad (mayor a menor)</option>
+              <option value="confianza">Mayor confianza</option>
+              <option value="online">Online primero</option>
+            </select>
             <button
               onClick={() => setShowFilters(!showFilters)}
               className="px-6 py-3 rounded-xl font-bold flex items-center gap-2"
               style={{
                 background: showFilters ? 'var(--gradient-primary)' : 'var(--bg-card)',
                 color: 'white',
-                border: '1px solid var(--border-subtle)'
+                border: '2px solid var(--border-subtle)'
               }}
             >
               <SlidersHorizontal size={20} />
@@ -64,56 +115,64 @@ const GenteView = ({ onNavigate }) => {
             </button>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 flex-wrap">
             <button
               onClick={() => setTipoFiltro('todos')}
-              className="px-4 py-2 rounded-lg font-medium"
+              className="px-6 py-3 rounded-lg font-bold transition-all"
               style={{
                 background: tipoFiltro === 'todos' ? 'var(--gradient-primary)' : 'rgba(255,255,255,0.1)',
-                color: 'white'
+                color: 'white',
+                border: tipoFiltro === 'todos' ? '2px solid var(--sexy-gold)' : '2px solid transparent'
               }}
             >
               Todos ({TODOS_MIEMBROS.length})
             </button>
             <button
               onClick={() => setTipoFiltro('pareja')}
-              className="px-4 py-2 rounded-lg font-medium"
+              className="px-6 py-3 rounded-lg font-bold transition-all"
               style={{
                 background: tipoFiltro === 'pareja' ? 'var(--gradient-primary)' : 'rgba(255,255,255,0.1)',
-                color: 'white'
+                color: 'white',
+                border: tipoFiltro === 'pareja' ? '2px solid var(--sexy-gold)' : '2px solid transparent'
               }}
             >
               Parejas ({TODOS_MIEMBROS.filter(m => m.type === 'pareja').length})
             </button>
             <button
               onClick={() => setTipoFiltro('mujer')}
-              className="px-4 py-2 rounded-lg font-medium"
+              className="px-6 py-3 rounded-lg font-bold transition-all"
               style={{
                 background: tipoFiltro === 'mujer' ? 'var(--gradient-primary)' : 'rgba(255,255,255,0.1)',
-                color: 'white'
+                color: 'white',
+                border: tipoFiltro === 'mujer' ? '2px solid var(--sexy-gold)' : '2px solid transparent'
               }}
             >
               Mujeres ({TODOS_MIEMBROS.filter(m => m.type === 'mujer').length})
             </button>
             <button
               onClick={() => setTipoFiltro('hombre')}
-              className="px-4 py-2 rounded-lg font-medium"
+              className="px-6 py-3 rounded-lg font-bold transition-all"
               style={{
                 background: tipoFiltro === 'hombre' ? 'var(--gradient-primary)' : 'rgba(255,255,255,0.1)',
-                color: 'white'
+                color: 'white',
+                border: tipoFiltro === 'hombre' ? '2px solid var(--sexy-gold)' : '2px solid transparent'
               }}
             >
               Hombres ({TODOS_MIEMBROS.filter(m => m.type === 'hombre').length})
             </button>
           </div>
+
+          <div className="text-sm text-gray-400">
+            Mostrando {miembrosFiltrados.length} resultados
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {miembrosFiltrados.slice(0, 50).map((member) => (
+          {miembrosFiltrados.map((member) => (
             <div
               key={member.id}
               onClick={() => setSelectedMember(member)}
-              className="card-sexy overflow-hidden cursor-pointer"
+              className="card-sexy overflow-hidden cursor-pointer hover-lift"
             >
               <div className="relative h-64">
                 <img
@@ -131,8 +190,9 @@ const GenteView = ({ onNavigate }) => {
                 {member.status === 'online' && (
                   <div className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-2"
                     style={{
-                      background: 'rgba(0,0,0,0.7)',
-                      color: '#00ff00'
+                      background: 'rgba(0,0,0,0.8)',
+                      color: '#00ff00',
+                      border: '1px solid #00ff00'
                     }}
                   >
                     <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
@@ -153,7 +213,8 @@ const GenteView = ({ onNavigate }) => {
                         className="text-xs px-2 py-1 rounded-full"
                         style={{
                           background: 'rgba(255,184,0,0.2)',
-                          color: 'var(--sexy-gold)'
+                          color: 'var(--sexy-gold)',
+                          border: '1px solid rgba(255,184,0,0.3)'
                         }}
                       >
                         {trait}
@@ -169,7 +230,7 @@ const GenteView = ({ onNavigate }) => {
                     color: 'white'
                   }}
                 >
-                  Ver Perfil
+                  Ver Perfil Completo
                 </button>
               </div>
             </div>
@@ -182,14 +243,6 @@ const GenteView = ({ onNavigate }) => {
           </div>
         )}
       </div>
-
-      {selectedMember && (
-        <PerfilModal
-          miembro={selectedMember}
-          onClose={() => setSelectedMember(null)}
-          onSendMessage={handleSendMessage}
-        />
-      )}
     </div>
   );
 };

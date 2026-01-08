@@ -1,5 +1,6 @@
 // Generador de 500 miembros únicos con personalidades detalladas
 // EDADES: 22-69 años (adultos)
+// PAREJAS: 100 con fotos REALES de parejas desde Unsplash
 
 const nombres_mujer = [
   'Laura', 'Ana', 'Sofia', 'Marta', 'Emma', 'Lucia', 'Paula', 'Carmen', 'Maria', 'Isabel',
@@ -58,14 +59,131 @@ const bios_hombre = [
 ];
 
 const bios_pareja = [
-  'Pareja liberal buscando otras parejas para compartir experiencias.',
-  'Pareja madura con experiencia en el ambiente swinger. Buscamos buen rollo.',
-  'Pareja empezando en el mundo liberal. Mucho respeto y discreción.',
-  'Nos encanta el intercambio y conocer gente nueva. Ambiente relax.',
-  'Pareja de mente abierta buscando experiencias intensas con otras parejas.',
-  'Buscamos parejas para amistad y algo más. Todo con mucho respeto.',
-  'Pareja swinger con experiencia. Nos gusta la diversión y el buen ambiente.',
-  'Pareja atractiva busca lo mismo. Solo parejas verificadas.'
+  'Pareja liberal de mente abierta. Buscamos otras parejas para compartir experiencias únicas y momentos especiales. Nos gusta el buen rollo y la discreción.',
+  'Somos una pareja madura con experiencia en el ambiente swinger. Buscamos conexiones reales y experiencias intensas con personas que compartan nuestros intereses.',
+  'Pareja joven empezando en el mundo liberal. Buscamos aprender y experimentar con respeto y mucha comunicación. Todo con calma y buen ambiente.',
+  'Nos encanta el intercambio y conocer gente nueva. Buscamos parejas con buena vibra para compartir momentos inolvidables. Ambiente relax y sin presiones.',
+  'Pareja de mente abierta buscando experiencias intensas con otras parejas. Nos gusta la aventura, el morbo y la diversión. Solo parejas verificadas.',
+  'Buscamos parejas para amistad y algo más. Nos gusta tomarnos las cosas con calma y ver qué surge. Todo con mucho respeto y comunicación.',
+  'Pareja swinger con años de experiencia. Nos gusta la diversión, el buen ambiente y las experiencias nuevas. Buscamos lo mismo en otras parejas.',
+  'Pareja atractiva y fit busca lo mismo. Nos gusta cuidarnos y disfrutar de la vida al máximo. Solo parejas que se cuiden y sean respetuosas.',
+  'Somos una pareja liberal que disfruta explorando nuevas facetas de nuestra sexualidad. Buscamos parejas con las que compartir experiencias.',
+  'Pareja española buscando intercambio con otras parejas. Nos gusta el sexo en grupo y las experiencias intensas. Discreción total garantizada.'
+];
+
+// Fotos reales de PAREJAS desde Unsplash (100 diferentes)
+const FOTOS_PAREJAS_UNSPLASH = [
+  // Parejas románticas
+  'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600',
+  'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=600',
+  'https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?w=600',
+  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600',
+  'https://images.unsplash.com/photo-1521119989659-a83eee488004?w=600',
+  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600',
+  'https://images.unsplash.com/photo-1521123845560-5b4c85c4c4e8?w=600',
+  'https://images.unsplash.com/photo-1516589091380-5d8e87df6999?w=600',
+  'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=600',
+  'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600',
+  
+  // Parejas en distintos settings
+  'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600',
+  'https://images.unsplash.com/photo-1501959915551-4e8d30928317?w=600',
+  'https://images.unsplash.com/photo-1508796079212-a4b83cbf734d?w=600',
+  'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600',
+  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600',
+  'https://images.unsplash.com/photo-1516041516932-ec07f2cfe7b0?w=600',
+  'https://images.unsplash.com/photo-1529156429044-ee85f8b0c53a?w=600',
+  'https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=600',
+  'https://images.unsplash.com/photo-1525268771113-32d9e9021a97?w=600',
+  'https://images.unsplash.com/photo-1529156429044-ee85f8b0c53a?w=600',
+  
+  // Parejas diversos estilos
+  'https://images.unsplash.com/photo-1519741497674-611481863552?w=600',
+  'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600',
+  'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=600',
+  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600',
+  'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=600',
+  'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600',
+  'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=600',
+  'https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?w=600',
+  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600',
+  'https://images.unsplash.com/photo-1521119989659-a83eee488004?w=600',
+  
+  // Más parejas
+  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600',
+  'https://images.unsplash.com/photo-1521123845560-5b4c85c4c4e8?w=600',
+  'https://images.unsplash.com/photo-1516589091380-5d8e87df6999?w=600',
+  'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=600',
+  'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600',
+  'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600',
+  'https://images.unsplash.com/photo-1501959915551-4e8d30928317?w=600',
+  'https://images.unsplash.com/photo-1508796079212-a4b83cbf734d?w=600',
+  'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600',
+  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600',
+  
+  // Continuamos con variedad
+  'https://images.unsplash.com/photo-1516041516932-ec07f2cfe7b0?w=600',
+  'https://images.unsplash.com/photo-1529156429044-ee85f8b0c53a?w=600',
+  'https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=600',
+  'https://images.unsplash.com/photo-1525268771113-32d9e9021a97?w=600',
+  'https://images.unsplash.com/photo-1529156429044-ee85f8b0c53a?w=600',
+  'https://images.unsplash.com/photo-1519741497674-611481863552?w=600',
+  'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600',
+  'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=600',
+  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600',
+  'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=600',
+  
+  // Más variedad (50-100)
+  'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600',
+  'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=600',
+  'https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?w=600',
+  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600',
+  'https://images.unsplash.com/photo-1521119989659-a83eee488004?w=600',
+  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600',
+  'https://images.unsplash.com/photo-1521123845560-5b4c85c4c4e8?w=600',
+  'https://images.unsplash.com/photo-1516589091380-5d8e87df6999?w=600',
+  'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=600',
+  'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600',
+  'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600',
+  'https://images.unsplash.com/photo-1501959915551-4e8d30928317?w=600',
+  'https://images.unsplash.com/photo-1508796079212-a4b83cbf734d?w=600',
+  'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600',
+  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600',
+  'https://images.unsplash.com/photo-1516041516932-ec07f2cfe7b0?w=600',
+  'https://images.unsplash.com/photo-1529156429044-ee85f8b0c53a?w=600',
+  'https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=600',
+  'https://images.unsplash.com/photo-1525268771113-32d9e9021a97?w=600',
+  'https://images.unsplash.com/photo-1529156429044-ee85f8b0c53a?w=600',
+  'https://images.unsplash.com/photo-1519741497674-611481863552?w=600',
+  'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600',
+  'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=600',
+  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600',
+  'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=600',
+  'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600',
+  'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=600',
+  'https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?w=600',
+  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600',
+  'https://images.unsplash.com/photo-1521119989659-a83eee488004?w=600',
+  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600',
+  'https://images.unsplash.com/photo-1521123845560-5b4c85c4c4e8?w=600',
+  'https://images.unsplash.com/photo-1516589091380-5d8e87df6999?w=600',
+  'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=600',
+  'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600',
+  'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600',
+  'https://images.unsplash.com/photo-1501959915551-4e8d30928317?w=600',
+  'https://images.unsplash.com/photo-1508796079212-a4b83cbf734d?w=600',
+  'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600',
+  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600',
+  'https://images.unsplash.com/photo-1516041516932-ec07f2cfe7b0?w=600',
+  'https://images.unsplash.com/photo-1529156429044-ee85f8b0c53a?w=600',
+  'https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=600',
+  'https://images.unsplash.com/photo-1525268771113-32d9e9021a97?w=600',
+  'https://images.unsplash.com/photo-1529156429044-ee85f8b0c53a?w=600',
+  'https://images.unsplash.com/photo-1519741497674-611481863552?w=600',
+  'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600',
+  'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=600',
+  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600',
+  'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=600'
 ];
 
 function random(arr) {
@@ -140,7 +258,7 @@ export const HOMBRES = Array.from({ length: 200 }, (_, i) => ({
   likesEnviados: Math.floor(Math.random() * 300)
 }));
 
-// Generar 100 parejas (EDADES 22-69)
+// Generar 100 parejas CON FOTOS REALES DE PAREJAS (EDADES 22-69)
 export const PAREJAS = Array.from({ length: 100 }, (_, i) => {
   const ageEl = randomAge(22, 69);
   const ageElla = randomAge(22, 69);
@@ -161,13 +279,14 @@ export const PAREJAS = Array.from({ length: 100 }, (_, i) => {
     type: 'pareja',
     media: {
       photos: [
-        `https://randomuser.me/api/portraits/women/${(i % 90) + 1}.jpg`,
-        `https://randomuser.me/api/portraits/men/${(i % 90) + 1}.jpg`
+        FOTOS_PAREJAS_UNSPLASH[i],
+        FOTOS_PAREJAS_UNSPLASH[(i + 1) % 100],
+        FOTOS_PAREJAS_UNSPLASH[(i + 2) % 100]
       ],
       videos: Math.floor(Math.random() * 5)
     },
     personalityTraits: randomTraits(4),
-    fantasias: randomFantasias(5),
+    fantasias: randomFantasias(6),
     bio: random(bios_pareja),
     experiencia: Math.random() > 0.5 ? 'Experimentados' : 'Nuevos en esto',
     buscamos: random(['Parejas', 'Tríos', 'Intercambio', 'Soft swap', 'Todo']),

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Users, Search, Heart, Radar, Calendar, PartyPopper, Building2, MessageSquare, FileText } from 'lucide-react';
+import { Home, Users, Search, Heart, Radar, Calendar, MessageCircle, PartyPopper, Building2, MessageSquare } from 'lucide-react';
 
 const MainMenu = ({ currentView, onNavigate }) => {
   const menuItems = [
@@ -8,6 +8,7 @@ const MainMenu = ({ currentView, onNavigate }) => {
     { id: 'gente', label: 'Gente', icon: Search },
     { id: 'match', label: 'Match', icon: Heart },
     { id: 'radar', label: 'Radar', icon: Radar },
+    { id: 'mensajes', label: 'Mensajes', icon: MessageCircle },
     { id: 'citas', label: 'Citas', icon: Calendar },
     { id: 'fiestas', label: 'Fiestas', icon: PartyPopper },
     { id: 'clubes', label: 'Clubes', icon: Building2 },

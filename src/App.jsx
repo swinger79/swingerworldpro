@@ -27,7 +27,8 @@ const App = () => {
     </div>
   );
 
-  const showSidebar = ['inicio', 'amigos', 'todos-amigos'].includes(currentView);
+  // Sidebar visible en TODAS las vistas
+  const showSidebar = true;
 
   return (
     <div className="min-h-screen" style={{ background: '#0A0A0A' }}>
@@ -53,13 +54,12 @@ const App = () => {
             {currentView === 'match' && <MatchView />}
             {currentView === 'mensajes' && <MensajesView />}
             {currentView === 'citas' && <CitasView />}
-            {currentView === 'vacaciones' && <PlaceholderView title="Vacaciones" />}
             {currentView === 'fiestas' && <PlaceholderView title="Fiestas" />}
             {currentView === 'clubes' && <PlaceholderView title="Clubes" />}
             {currentView === 'foro' && <PlaceholderView title="Foro" />}
             {currentView === 'blog' && <PlaceholderView title="Blog" />}
             {currentView === 'avisos' && <PlaceholderView title="Avisos" />}
-            {currentView === 'perfil' && <PlaceholderView title="Tu Perfil" />}
+            {currentView === 'perfil' && <EditarPerfilView />}
             {currentView === 'editar-perfil' && <EditarPerfilView />}
           </div>
         </div>

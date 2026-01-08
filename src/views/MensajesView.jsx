@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { AI_MEMBERS_ENHANCED } from '../data/membersAIEnhanced';
+import TODOS_MIEMBROS from '../data/memberGenerator';
 import { Send, Video, Phone, MoreVertical, Search, ArrowLeft } from 'lucide-react';
 
 const MensajesView = () => {
   const [selectedChat, setSelectedChat] = useState(null);
   const [message, setMessage] = useState('');
   const [showPremiumModal, setShowPremiumModal] = useState(false);
-  const [isPremium] = useState(false); // Simular usuario FREE
+  const [isPremium] = useState(false);
 
-  const onlineUsers = AI_MEMBERS_ENHANCED.filter(m => m.status === 'online');
+  const onlineUsers = TODOS_MIEMBROS.filter(m => m.status === 'online').slice(0, 20);
 
   const handleSendMessage = () => {
     if (message.trim()) {
@@ -26,12 +26,11 @@ const MensajesView = () => {
   };
 
   return (
-    <div className="min-h-screen py-8">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="min-h-screen">
+      <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl font-bold mb-6 fire-text">💬 Mensajes</h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Lista de conversaciones */}
           <div className="lg:col-span-1 rounded-xl overflow-hidden" style={{
             background: 'var(--bg-card)',
             border: '1px solid var(--border-subtle)',
@@ -57,7 +56,7 @@ const MensajesView = () => {
                 <div
                   key={user.id}
                   onClick={() => setSelectedChat(user)}
-                  className="flex items-center gap-3 p-4 cursor-pointer transition-all"
+                  className="flex items-center gap-3 p-4 cursor-pointer transition-all hover:bg-opacity-20"
                   style={{
                     background: selectedChat?.id === user.id ? 'rgba(255,8,68,0.1)' : 'transparent',
                     borderBottom: '1px solid var(--border-subtle)'
@@ -84,7 +83,6 @@ const MensajesView = () => {
             </div>
           </div>
 
-          {/* Área de chat */}
           <div className="lg:col-span-2 rounded-xl overflow-hidden" style={{
             background: 'var(--bg-card)',
             border: '1px solid var(--border-subtle)',
@@ -92,7 +90,6 @@ const MensajesView = () => {
           }}>
             {selectedChat ? (
               <div className="flex flex-col h-full">
-                {/* Header del chat */}
                 <div className="p-4 flex items-center justify-between" style={{
                   borderBottom: '1px solid var(--border-subtle)',
                   background: 'rgba(255,8,68,0.05)'
@@ -140,7 +137,6 @@ const MensajesView = () => {
                   </div>
                 </div>
 
-                {/* Mensajes */}
                 <div className="flex-1 p-4 overflow-y-auto">
                   <div className="text-center text-gray-400 text-sm mb-4">
                     Inicio de la conversación con {selectedChat.name}
@@ -167,7 +163,6 @@ const MensajesView = () => {
                   </div>
                 </div>
 
-                {/* Input de mensaje */}
                 <div className="p-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
                   <div className="flex items-center gap-2">
                     <input
@@ -217,7 +212,6 @@ const MensajesView = () => {
         </div>
       </div>
 
-      {/* Modal Premium */}
       {showPremiumModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.9)' }}>
           <div className="p-8 rounded-3xl max-w-md text-center" style={{
@@ -229,8 +223,7 @@ const MensajesView = () => {
               Función Premium
             </h3>
             <p className="text-gray-300 mb-6">
-              Las videollamadas son una característica exclusiva para miembros Premium. 
-              Actualiza tu cuenta para disfrutar de esta y otras funciones.
+              Las videollamadas son una característica exclusiva para miembros Premium.
             </p>
             <div className="space-y-3">
               <button

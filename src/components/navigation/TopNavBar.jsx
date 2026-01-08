@@ -1,116 +1,86 @@
 import React from 'react';
-import { Search, MessageCircle, Bell, User, Menu, Flame } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Search, Bell, MessageCircle, Crown } from 'lucide-react';
 
-const TopNavBar = ({ currentUser, onNavigate }) => {
+const TopNavBar = ({ currentUser, onNavigate, onShowPremium }) => {
   return (
-    <div style={{
-      background: 'linear-gradient(135deg, #0A0A0A 0%, #1A0000 50%, #0A0A0A 100%)',
-      borderBottom: '2px solid rgba(255,8,68,0.3)',
-      boxShadow: '0 4px 20px rgba(255,8,68,0.2)'
+    <div className="sticky top-0 z-40 px-4 py-3" style={{
+      background: 'linear-gradient(135deg, #1A1A1A 0%, #2A1010 100%)',
+      borderBottom: '2px solid rgba(255,8,68,0.4)',
+      boxShadow: '0 4px 20px rgba(0,0,0,0.5)'
     }}>
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => onNavigate('inicio')}>
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="w-14 h-14 rounded-full flex items-center justify-center relative"
-            style={{
-              background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
-              boxShadow: '0 0 30px rgba(255,8,68,0.6), inset 0 0 20px rgba(255,184,0,0.4)'
-            }}
-          >
-            <Flame size={28} className="text-white" style={{ filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.8))' }} />
-          </motion.div>
-          <div>
-            <h1 className="text-2xl font-bold font-display" style={{
-              background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>
-              Swinger World
-            </h1>
-            <p className="text-xs" style={{ color: '#FFB800' }}>Comunidad Élite</p>
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="flex items-center gap-8">
+          <div className="flex items-center gap-3">
+            <span className="text-4xl">🔥</span>
+            <div>
+              <h1 className="text-2xl font-bold fire-text">Swinger World</h1>
+              <p className="text-xs" style={{ color: 'var(--sexy-gold)' }}>Comunidad Elite</p>
+            </div>
           </div>
-        </div>
 
-        {/* Search */}
-        <div className="flex-1 max-w-2xl mx-8">
-          <div className="relative">
-            <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2" style={{ color: '#FFB800' }} />
+          <div className="relative hidden md:block">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="text"
               placeholder="Buscar usuarios, eventos, clubes..."
-              className="w-full pl-12 pr-4 py-2 rounded-full text-white placeholder-gray-500 transition-all"
+              className="pl-12 pr-4 py-2 rounded-full text-white"
               style={{
-                background: 'rgba(26,26,26,0.8)',
+                background: 'rgba(0,0,0,0.5)',
                 border: '1px solid rgba(255,8,68,0.3)',
-                outline: 'none'
+                width: '400px'
               }}
-              onFocus={(e) => e.target.style.borderColor = '#FF0844'}
-              onBlur={(e) => e.target.style.borderColor = 'rgba(255,8,68,0.3)'}
             />
           </div>
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center space-x-4">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => onNavigate('mensajes')}
-            className="relative p-2 rounded-full transition-all"
-            style={{
-              background: 'rgba(255,8,68,0.1)',
-              border: '1px solid rgba(255,8,68,0.3)'
-            }}
-          >
-            <MessageCircle size={24} style={{ color: '#FF0844' }} />
-            {currentUser.messages > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold" style={{
+        <div className="flex items-center gap-4">
+          {!currentUser.isPremium && (
+            <button
+              onClick={onShowPremium}
+              className="px-4 py-2 rounded-lg font-bold flex items-center gap-2 fire-pulse"
+              style={{
+                background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
+                color: 'white'
+              }}
+            >
+              <Crown size={20} />
+              <span className="hidden md:inline">Hazte Premium</span>
+            </button>
+          )}
+
+          <button className="relative">
+            <MessageCircle size={24} style={{ color: 'var(--sexy-red)' }} />
+            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold"
+              style={{
                 background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
                 color: 'white'
               }}>
-                {currentUser.messages}
-              </span>
-            )}
-          </motion.button>
+              {currentUser.messages}
+            </span>
+          </button>
 
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => onNavigate('avisos')}
-            className="relative p-2 rounded-full transition-all"
-            style={{
-              background: 'rgba(255,184,0,0.1)',
-              border: '1px solid rgba(255,184,0,0.3)'
-            }}
-          >
-            <Bell size={24} style={{ color: '#FFB800' }} />
-            {currentUser.notifications > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold" style={{
-                background: 'linear-gradient(135deg, #FFB800 0%, #FF0844 100%)',
+          <button className="relative">
+            <Bell size={24} style={{ color: 'var(--sexy-red)' }} />
+            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold"
+              style={{
+                background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
                 color: 'white'
               }}>
-                {currentUser.notifications}
-              </span>
-            )}
-          </motion.button>
+              {currentUser.notifications}
+            </span>
+          </button>
 
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+          <button
             onClick={() => onNavigate('perfil')}
-            className="flex items-center space-x-2 px-4 py-2 rounded-full transition-all"
+            className="flex items-center gap-2 px-4 py-2 rounded-full hover:scale-105 transition-all"
             style={{
               background: 'linear-gradient(135deg, #FF0844 0%, #FFB800 100%)',
-              color: 'white'
+              border: currentUser.isPremium ? '2px solid var(--sexy-gold)' : 'none'
             }}
           >
-            <User size={20} />
-            <span className="font-medium">{currentUser.name}</span>
-          </motion.button>
+            {currentUser.isPremium && <Crown size={16} color="white" />}
+            <span className="font-bold text-white">{currentUser.name}</span>
+          </button>
         </div>
       </div>
     </div>
